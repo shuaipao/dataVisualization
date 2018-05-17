@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Date"
+  },
+  {
+    "name": "placmentId"
+  },
+  {
+    "name": "fold"
+  },
+  {
+    "name": "点击imei"
+  },
+  {
+    "name": "展示imei"
+  },
+  {
+    "name": "imeiCTR"
+  },
+  {
+    "name": "点击总量"
+  },
+  {
+    "name": "展示总量"
+  },
+  {
+    "name": "RealCTR"
+  }
+]
