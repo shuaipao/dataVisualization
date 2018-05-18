@@ -14,6 +14,64 @@ app.all("*", function (req, res, next) {
     next();
 });
 app.use(bodyParser.urlencoded({extended: false}));
+
+//文件夹监控
+var watcher = null;
+var ready = false;
+var watchPath = './json/table02';
+
+// 文件新增时
+function addFileListener() {
+    if (ready) {
+        fileNames = findSync('./json/table02');
+        table02Api(fileNames);
+    }
+}
+
+function addDirecotryListener() {
+    if (ready) {
+        fileNames = findSync('./json/table02');
+        table02Api(fileNames);
+    }
+}
+
+// 文件内容改变时
+function fileChangeListener() {
+    fileNames = findSync('./json/table02');
+    table02Api(fileNames);
+}
+
+// 删除文件时，需要把文件里所有的用例删掉
+function fileRemovedListener() {
+    fileNames = findSync('./json/table02');
+    table02Api(fileNames);
+}
+
+// 删除目录时
+function directoryRemovedListener() {
+    fileNames = findSync('./json/table02');
+    table02Api(fileNames);
+}
+
+if (!watcher) {
+    watcher = chokidar.watch(watchPath);
+}
+watcher.on('add', addFileListener)
+    .on('addDir', addDirecotryListener)
+    .on('change', fileChangeListener)
+    .on('unlink', fileRemovedListener)
+    .on('unlinkDir', directoryRemovedListener)
+    .on('error', function (error) {
+        log.info('Error happened', error);
+    })
+    .on('ready', function () {
+        console.info('Initial scan complete. Ready for changes.');
+        ready = true
+    });
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//chart
 //分数段区间;
 var jscoreImmediate = [0, 50, 50, 86, 86, 129, 129, 150, 150, 200, 200, 241, 241, 300, 300, 1000];
 
@@ -29,8 +87,8 @@ function getBeforeDay(d, daysNumber) {
     return s;
 }
 
-//数据处理函数
-function dataBack(score, req, data) {
+//数据处理
+function dataBack(req, data) {
     var arrlength = 0;
     if (req.query.sectionIpt == "true") {
         arrlength = Math.ceil(req.query.maxScore / req.query.subSection);
@@ -54,9 +112,8 @@ function dataBack(score, req, data) {
             tableArr: [],
             chartData: JSON.parse(JSON.stringify(chartArr)),
             ratioData: []
-        }
+        },
     };
-
 
     var lastWeekDays = getBeforeDay(req.query.applyDate, 6);
     var last30Days = getBeforeDay(req.query.applyDate, 29);
@@ -125,7 +182,7 @@ function dataBack(score, req, data) {
     return backData;
 }
 
-//数组去重函数
+//数组去重
 function getCount(arr) {
     return arr.filter((val, index, self) => self.indexOf(val) == index)
 }
@@ -141,7 +198,7 @@ app.get("/home", function (req, res) {
 app.get("/appscore", function (req, res) {
     var data = fs.readFileSync('./json/applications.json').toString();
     data = JSON.parse(data);
-    res.send(dataBack("appscore", req, data));
+    res.send(dataBack(req, data));
 
 });
 
@@ -149,7 +206,7 @@ app.get("/appscore", function (req, res) {
 app.get("/jscore", function (req, res) {
     var data = fs.readFileSync('./json/applications.json').toString();
     data = JSON.parse(data);
-    res.send(dataBack("jscore", req, data));
+    res.send(dataBack(req, data));
 
 });
 
@@ -157,72 +214,56 @@ app.get("/jscore", function (req, res) {
 app.get("/upscore", function (req, res) {
     var data = fs.readFileSync('./json/applications.json').toString();
     data = JSON.parse(data);
-    res.send(dataBack("upscore", req, data));
+    res.send(dataBack(req, data));
 
+});
+
+app.get("/productsData", function (req, res) {
+    var data = fs.readFileSync('./json/applications.json').toString();
+    var classfiyName = dec(JSON.parse(data));
+    // console.log(classfiyName);
+    var backData = {};
+
+    var arrlength = 0;
+    if (req.query.sectionIpt == "true") {
+        arrlength = Math.ceil(req.query.maxScore / req.query.subSection);
+    } else {
+        arrlength = jscoreImmediate.length / 2;
+    }
+    // var chartArr =
+    for (var i in classfiyName) {
+        backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
+        for (var j = 0; j < classfiyName[i].length; j++) {
+            if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || ((req.query.isNew == 'isNew') && classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
+                if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
+                    if (req.query.sectionIpt == "true") {
+                        for (var l = 0; l < arrlength; l++) {
+                            if (classfiyName[i][j][classfiyName[i][j].scoreName] >= l * req.query.subSection && classfiyName[i][j][classfiyName[i][j].scoreName] < ((l + 1) * req.query.subSection)) {
+                                backData[i][l]++
+                            }
+                        }
+                    } else {
+                        for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
+                            if (classfiyName[i][j][classfiyName[i][j].scoreName] >= jscoreImmediate[l * 2] && classfiyName[i][j][classfiyName[i][j].scoreName] < jscoreImmediate[l * 2 + 1]) {
+                                backData[i][l]++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    console.log(backData);
+    res.send(backData);
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 //table02
 
-
 //获取相对路径下的文件名
 //table02文件数组
 let fileNames = findSync('./json/table02');
-
-//文件夹监控
-var watcher = null;
-var ready = false;
-var watchPath = './json/table02';
-
-// 文件新增时
-function addFileListener() {
-    if (ready) {
-        fileNames = findSync('./json/table02');
-        table02Api(fileNames);
-    }
-}
-
-function addDirecotryListener() {
-    if (ready) {
-        fileNames = findSync('./json/table02');
-        table02Api(fileNames);
-    }
-}
-
-// 文件内容改变时
-function fileChangeListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-// 删除文件时，需要把文件里所有的用例删掉
-function fileRemovedListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-// 删除目录时
-function directoryRemovedListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-if (!watcher) {
-    watcher = chokidar.watch(watchPath);
-}
-watcher.on('add', addFileListener)
-    .on('addDir', addDirecotryListener)
-    .on('change', fileChangeListener)
-    .on('unlink', fileRemovedListener)
-    .on('unlinkDir', directoryRemovedListener)
-    .on('error', function (error) {
-        log.info('Error happened', error);
-    })
-    .on('ready', function () {
-        console.info('Initial scan complete. Ready for changes.');
-        ready = true
-    });
 
 //生成table02 json文件名数组 返回值result(array[string]);
 function findSync(startPath) {
@@ -288,7 +329,7 @@ table02Api(fileNames);
 //////////////////////////////////////////////////////////////////////////////////////////////
 //dec.json
 
-//从前面n周周五到周五的日期数组函数
+//从前面n周周五到date前一个周五的日期数组函数
 function getFriday(date, n) {
     var d;
     if (date) {
@@ -313,6 +354,7 @@ function getFriday(date, n) {
     return dateArrs
 }
 
+//改变数据结构: {产品名1:[{订单},{订单},...], 产品名2: [{...}]}
 function dec(data) {
     var backData = {};
     var productNames = JSON.parse(fs.readFileSync('./json/filterData.json').toString())[0].productName;
@@ -329,16 +371,17 @@ function dec(data) {
             }
         }
     }
-
     return backData;
 }
 
-
-
+//chartART接口API
 app.get("/chartART", function (req, res) {
+    // console.log(req.query.date);
+    // var start = new Date().getTime();
     var data = fs.readFileSync('./json/dec.json').toString();
     var classfiyName = dec(JSON.parse(data));
-    var weeks = getFriday("2018-04-13", 17);
+    // console.log(classfiyName);
+    var weeks = getFriday(req.query.date, req.query.weeksNb);
     var backData = {};
     var ratio = {};
     for (var i in classfiyName) {
@@ -348,18 +391,22 @@ app.get("/chartART", function (req, res) {
             for (var j = 0; j < weeks.length; j++) {
 
                 if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])) {
-                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : 0;
-                    backData[i].all ++;
+                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
+                    backData[i].all++;
                     if (classfiyName[i][k].decCode == "SUCCESS") {
-                        backData[i][weeks[j][6] + "-" + weeks[j][0]]++;
+                        backData[i][weeks[j][6] + "-" + weeks[j][0]][0]++;
                     }
+                    backData[i][weeks[j][6] + "-" + weeks[j][0]][1]++;
+
                 } else {
-                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : 0;
+                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                 }
             }
         }
-
     }
+    // console.log(backData);
+    // var end = new Date().getTime();
+    // console.log(end - start + "ms");
     res.send(backData);
 });
 

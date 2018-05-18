@@ -6,8 +6,8 @@
 
                 <!--date-->
                 <div style="display: inline-block">
-                    <el-date-picker v-model="thisDay" type="datetime" placeholder="选择日期时间" align="right"
-                        format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" :picker-options="pickerOptions"
+                    <el-date-picker v-model="thisDay" type="date" placeholder="选择日期时间" align="right"
+                        format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
                         @change="changeDate" style="margin: 10px 20px">
                     </el-date-picker>
                 </div>
@@ -118,6 +118,26 @@
                 <el-tag style="margin-bottom: 20px">PSI(周): {{weekPSI}}</el-tag>
             </div>
         </el-card>
+
+        <el-card class="box-card" id="chartProducts" style="margin-top: 60px;margin-bottom: 30px">
+            <!--日期段-->
+            <div class="block">
+                <el-date-picker
+                    v-model="timeSlot"
+                    type="datetimerange"
+                    format="yyyy 年 MM 月 dd 日"
+                    value-format="yyyy-MM-dd"
+                    :picker-options="pickerOptions"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    align="right">
+                </el-date-picker>
+            </div>
+            <!--chart-->
+            <div id="productsChart" :style="{width:'100%',height:'400px'}"></div>
+        </el-card>
+
         <el-card class="box-card" id="table01" style="text-align: left;margin-bottom: 20px;text-align: center;">
             <el-row>
                 <el-col :span="24">
@@ -157,8 +177,10 @@
                 </el-col>
             </el-row>
         </el-card>
+
     </div>
 </template>
+
 <script>
     export default {
         name: "chart",
@@ -195,7 +217,36 @@
                 subSection: 100,
                 maxScore: 1000,
                 productName: '全部',
-                channelId: '0'
+                channelId: '0',
+
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                timeSlot: [new Date("2018-03-27"), new Date()],
             }
         }
         ,
@@ -209,6 +260,7 @@
                 this.scoreNames = res.data[0].scoreName;
             });
             this.drawLine();
+            this.getProductsData()
         }
         ,
         methods: {
@@ -661,6 +713,178 @@
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
+            },
+
+            //productsCahrt
+
+            datedifference(sDate1, sDate2) {
+                var dateSpan,
+                    tempDate,
+                    iDays;
+                sDate1 = Date.parse(sDate1);
+                sDate2 = Date.parse(sDate2);
+                dateSpan = sDate2 - sDate1;
+                dateSpan = Math.abs(dateSpan);
+                iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+                return iDays
+            },
+
+            getProductsData() {
+                console.log(this.isNew);
+                this.$ajax.get('/productsData',
+                    {
+                        url: '/productsData',
+                        baseURL: process.env.API_BASEURL,
+                        params: {
+                            timeSlot: this.timeSlot,
+                            sectionIpt: this.sectionIpt,
+                            maxScore: this.maxScore,
+                            subSection: this.subSection,
+                            dayNb: this.timeSlot,
+                            productName: this.productName,
+                            channelId: this.channelId,
+                            isNew: this.isNew,
+                            scoreName: this.scoreName
+                        }
+                    }).then(res => {
+                    console.log(res);
+                })
+                this.drawLine2();
+
+            },
+
+            drawLine2() {
+                let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
+                window.onresize = function () {
+                    myChart2.resize();
+                }
+                myChart2.setOption({
+
+                    title: {
+                        text: '用户score分布',
+                        x: '0px',
+                        y: '25px',
+                        textStyle: {
+                            fontSize: 14,
+                            color: "#40cc90"
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        position: function (p) {   //其中p为当前鼠标的位置
+                            return [p[0] - 65, p[1] - 10];
+                        }
+                    },
+
+                    grid: {
+                        left: '3%',
+                        top: '15%',
+                        containLabel: true
+                    },
+
+                    legend: {
+                        data: ['当日用户', '前一周用户', '前30天用户']
+                    },
+
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {
+                                show: true
+                            },
+                            dataView: {
+                                show: false,
+                                readOnly: false
+                            },
+                            magicType: {
+                                show: true,
+                                type: ['line', 'bar', 'stack', 'tiled']
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        },
+                        x: 100,
+                        y: 20
+                    },
+
+                    calculable: true,
+
+                    xAxis: [{
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.xAxis(),
+                        axisLabel: {
+                            interval: 'auto',
+                            rotate: 55
+                        },
+                    }],
+
+                    yAxis: {type: 'value'},
+
+                    series: []
+                });
+            },
+
+            typeNumber2() {
+                this.backgroundColor3 = 1;
+                if (this.ischartDatas == true) {
+                    let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
+                    myChart.setOption({
+
+                        tooltip: {
+                            align: 'left',
+                            formatter: function (params) {
+                                var relVal = params[0].name;
+                                for (var i = 0, l = params.length; i < l; i++) {
+                                    relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value + "人";
+                                }
+                                return relVal;
+                            }
+                        },
+
+                        xAxis: [{
+                            type: 'category',
+                            boundaryGap: false,
+                            data: this.xAxis(),
+                            axisLabel: {
+                                interval: 'auto',
+                                rotate: 55
+                            },
+                        }],
+
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                show: true,
+                                interval: 'auto',
+                                formatter: '{value}'
+                            },
+                        },
+
+                        // series:
+                            // [
+                            // {
+                            //     name: '前30天用户',
+                            //     type: 'line',
+                            //     smooth: false,
+                            //     data: this.chartDatas.last30Days.chartData
+                            // }, {
+                            //     name: '前一周用户',
+                            //     type: 'line',
+                            //     smooth: false,
+                            //     data: this.chartDatas.lastWeek.chartData
+                            // }, {
+                            //     name: '当日用户',
+                            //     type: 'line',
+                            //     smooth: false,
+                            //     data: this.chartDatas.today.chartData
+                            // }]
+                    });
+                }
             },
         }
     }
