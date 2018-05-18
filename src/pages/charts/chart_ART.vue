@@ -1,15 +1,6 @@
 <template>
     <div id="chart_ART">
         <el-card class="box-card" id="chart" style="margin-top: 60px;margin-bottom: 30px">
-            <!--type-->
-            <el-button-group style="margin: 10px 0px;margin-left: 2%;">
-                <el-button type="primary" :class="{active1:backgroundColor3 == 0}" @click="typeRatio">
-                    比例
-                </el-button>
-                <el-button type="primary" :class="{active1:backgroundColor3 == 1}" @click="typeNumber">
-                    数量
-                </el-button>
-            </el-button-group>
             <!--chart-->
             <div id="myChart" :style="{width:'100%',height:'600px'}"></div>
         </el-card>
@@ -18,73 +9,36 @@
 
 <script>
     export default {
-
         name: "chart_ART",
-
         data() {
             return {
-                xaxis: ["2018/3/17-2018/3/23",
-                    "2018/3/24-2018/3/30", "2018/3/31-2018/4/6", "2018/4/7-2018/4/13", "2018/4/14-2018/4/20",
-                    "2018/4/21-2018/4/27", "2018/4/28-2018/5/4"],
-                dataArr: {},
-                backgroundColor3: 0,
+
             }
         },
-
         mounted() {
             this.$ajax.get('/chartART', {
                 url: '/chartART',
                 baseURL: process.env.API_BASEURL,
             }).then((res) => {
-                var dataArr = {};
-                var dateArr = [];
-                for (var i in res.data) {
-                    dataArr[i] = [];
-                    for (var j in res.data[i]) {
-                        if (j != 'all') {
-                            dateArr.push(j);
-                            dataArr[i].push({[j]: res.data[i][j]});
-                        }
-                    }
-                    dataArr[i].sort(function (a, b) {
-                        var c, d;
-                        for (var s in a) {
-                            c = s;
-                        }
-                        for (var t in b) {
-                            d = t;
-                        }
-                        return c > t ? 1 : -1;
-                    });
-                    for (var s = 0; s < dataArr[i].length; s++) {
-                        for (var u in dataArr[i][s]) {
-                            dataArr[i][s] = dataArr[i][s][u];
-                        }
-                    }
-                }
-                dateArr = this.uniq(dateArr);
-                this.xaxis = dateArr;
-                this.dataArr = dataArr;
-                this.drawLine();
-                this.ART_Ratio();
+                // var data = [];
+                // var dateArr = [];
+                // var k = 0;
+                // for (var i in res.data) {
+                //     if (k > 0) {
+                //         continue;
+                //     }
+                //     for (var j in res.data[i]) {
+                //         if (j != 'all') {
+                //             dateArr.push(j)
+                //         }
+                //     }
+                //     k++
+                // }
+                // console.log(dateArr);
             });
-
+            this.drawLine();
         },
-
         methods: {
-
-            uniq(Array) {
-                Array = Array.sort();
-                var Ary = JSON.parse(JSON.stringify(Array));
-                var newArr = [];
-                for (var i = 0; i < Ary.length; i++) {
-                    if (newArr.indexOf(Ary[i]) == -1) {
-                        newArr.push(Ary[i]);
-                    }
-                }
-                return newArr;
-            },
-
             drawLine() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
                 window.onresize = function () {
@@ -93,7 +47,7 @@
                 myChart.setOption({
 
                     title: {
-                        text: 'dec比例',
+                        text: '用户score分布',
                         x: '0px',
                         y: '25px',
                         textStyle: {
@@ -115,7 +69,7 @@
                     },
 
                     legend: {
-                        data: this.legend()
+                        data: ['当日用户', '前一周用户', '前30天用户']
                     },
 
                     toolbox: {
@@ -162,70 +116,26 @@
             },
 
             xAxis() {
-                var arr = this.xaxis;
-                return arr;
+                // let arr = [];
+                // if (this.sectionIpt) {
+                //     var arrlength = Math.ceil(this.maxScore / this.subSection);
+                //     for (let i = 0; i < arrlength; i++) {
+                //         if ((arrlength - 1) == i) {
+                //             arr.push(i * this.subSection + "-" + this.maxScore + "分");
+                //             continue;
+                //         }
+                //         arr.push(i * this.subSection + "-" + (i + 1) * this.subSection + "分");
+                //     }
+                //     return arr
+                // } else {
+                var arr = ["2018/3/17-2018/3/23",
+                    "2018/3/24-2018/3/30", "2018/3/31-2018/4/6", "2018/4/7-2018/4/13", "2018/4/14-2018/4/20",
+                    "2018/4/21-2018/4/27", "2018/4/28-2018/5/4",]
+                return arr
+                // }
             },
 
-            legend() {
-                var arr = [];
-                for (var i in this.dataArr) {
-                    arr.push(i)
-                }
-                return arr;
-            },
-
-            seriesNb() {
-                var arr = [];
-                for (var i in this.dataArr) {
-                    arr.push({
-                        name: i,
-                        type: 'line',
-                        smooth: false,
-                        data: this.dataArr[i]
-                    })
-                }
-                return arr;
-            },
-
-            seriesRt() {
-                var sarr = [];
-                var all = 0;
-
-                function rt(data,t) {
-                    var newArr = [];
-                    // for (var j = 0; j < arr.length; j++) {
-                    //     all += arr[j];
-                    // }
-                    // for (var i = 0; i < arr.length; i++) {
-                    //     newArr[i] = (arr[i] / all * 100).toFixed(2)
-                    // }
-
-                        for (var j = 0; j < data[t].length; j++) {
-                            var all = 0;
-                            for (var k in data) {
-                                all += data[k][j]
-                            }
-                            if (all != 0) {
-                                newArr[j] = (data[t][j] / all * 100).toFixed(2);
-                            }else{
-                                newArr[j] = 0
-                            }
-                        }
-                    return newArr;
-                }
-
-                for (var i in this.dataArr) {
-                    sarr.push({
-                        name: i,
-                        type: 'line',
-                        smooth: false,
-                        data: rt(this.dataArr,i)
-                    })
-                }
-                return sarr;
-            },
-
-            ART_Number() {
+            ART() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
                 myChart.setOption({
 
@@ -259,63 +169,26 @@
                         },
                     },
 
-                    series: this.seriesNb()
-                });
-            },
-
-            ART_Ratio() {
-                let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
-                myChart.setOption({
-
-                    tooltip: {
-                        align: 'left',
-                        formatter: function (params) {
-                            var relVal = params[0].name;
-                            for (var i = 0, l = params.length; i < l; i++) {
-                                if (params[i].value != "NaN") {
-                                    relVal +=
-                                        '<br/>' + params[i].seriesName + ' : ' + params[i].value + "%";
-                                } else {
-                                    relVal +=
-                                        '<br/>' + params[i].seriesName + ' : ' + '0' + "%";
-                                }
-                            }
-                            return relVal;
+                    series: [
+                        {
+                            name: '前30天用户',
+                            type: 'line',
+                            smooth: false,
+                            data: this.chartDatas.last30Days.chartData
+                        }, {
+                            name: '前一周用户',
+                            type: 'line',
+                            smooth: false,
+                            data: this.chartDatas.lastWeek.chartData
+                        }, {
+                            name: '当日用户',
+                            type: 'line',
+                            smooth: false,
+                            data: this.chartDatas.today.chartData
                         }
-                    },
-
-                    xAxis: [{
-                        type: 'category',
-                        boundaryGap: false,
-                        data: this.xAxis(),
-                        axisLabel: {
-                            interval: 'auto',
-                            rotate: 55
-                        },
-                    }],
-
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            show: true,
-                            interval: 'auto',
-                            formatter: '{value}%'
-                        },
-                    },
-
-                    series: this.seriesRt()
+                    ]
                 });
-            },
-
-            typeRatio() {
-                this.backgroundColor3 = 0;
-                this.ART_Ratio()
-            },
-
-            typeNumber() {
-                this.backgroundColor3 = 1;
-                this.ART_Number()
-            },
+            }
         }
     }
 </script>
@@ -327,15 +200,5 @@
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
-    }
-
-    .active1 {
-        background: #0078f5 !important;
-        border: #3a8ee6 1px solid !important;
-    }
-
-    .active2 {
-        background: #328609 !important;
-        border: #328609 1px solid !important;
     }
 </style>
