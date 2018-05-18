@@ -1,0 +1,95 @@
+[
+  {
+    "scoreName": ["appscore", "jscore", "upscore"],
+    "productName": [
+      "全部", "小借", "易借款", "易借款_高息", "易借款_前期收费产品", "好分期_千一产品_H5", "易借款_微分期产品", "易借款_千一产品", "易借款_趸交", "易借款_前期收费150",
+      "测试用产品", "易分期_千一产品", "易借款_前期收费_C", null
+    ],
+    "channelId": [
+      {
+        "value": "0",
+        "label": "全部"
+      },
+      {
+        "value": "1",
+        "label": "channel_test"
+      },
+      {
+        "value": "2",
+        "label": "oppo"
+      },
+      {
+        "value": "16",
+        "label": "oppo_feeds"
+      },
+      {
+        "value": "19",
+        "label": "tencent"
+      },
+      {
+        "value": "197",
+        "label": "xiaomi"
+      },
+      {
+        "value": "210",
+        "label": "vivo"
+      },
+      {
+        "value": "478",
+        "label": "anzhi"
+      },
+      {
+        "value": "2786",
+        "label": "huawei"
+      },
+      {
+        "value": "53720",
+        "label": "wnys"
+      },
+      {
+        "value": "54075",
+        "label": "wandoujia"
+      },
+      {
+        "value": "57558",
+        "label": "zhushou360"
+      },
+      {
+        "value": "62958",
+        "label": "mumayi"
+      },
+      {
+        "value": "72066",
+        "label": "kouzi_1"
+      },
+      {
+        "value": "76749",
+        "label": "liqu"
+      },
+      {
+        "value": "266369",
+        "label": "HAOJIEQIAN_H5"
+      },
+      {
+        "value": "266376",
+        "label": "sms_20180321"
+      },
+      {
+        "value": "267264",
+        "label": "None"
+      },
+      {
+        "value": "267476",
+        "label": "kouziwang"
+      },
+      {
+        "value": "268292",
+        "label": "OPPO"
+      },
+      {
+        "value": "271388",
+        "label": "dingyuehao"
+      }
+    ]
+  }
+]
