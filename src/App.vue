@@ -7,15 +7,22 @@
             <el-menu-item index="1" style="max-width:40px;padding: 0px 10px;" @click="toChart"
             ><img src="../static/img/img_pic.png" alt="" width="24" @click="toChart"></el-menu-item>
 
-            <!--score分布图-->
-            <el-menu-item index="2" style="max-width:90px;padding: 0px 5px;" @click="toChart">
+            <!--用户score分布图-->
+            <el-menu-item index="2" style="max-width:120px;padding: 0px 5px;" @click="toChart">
                 <a href="#chart" style="width: 100%;height:100%;text-decoration: none;display: block;">
-                    score分布图
+                    用户score分布图
+                </a>
+            </el-menu-item>
+
+            <!--产品score分布图-->
+            <el-menu-item index="3" style="max-width:120px;padding: 0px 5px;" @click="toChart">
+                <a href="#chartProducts" style="width: 100%;height:100%;text-decoration: none;display: block;">
+                    产品score分布图
                 </a>
             </el-menu-item>
 
             <!--applications表-->
-            <el-menu-item index="3" style="max-width:110px;padding: 0px 5px;" @click="toChart">
+            <el-menu-item index="4" style="max-width:110px;padding: 0px 5px;" @click="toChart">
                 <a href="#table01"
                     style="width: 100%;height:100%;text-decoration: none;display: block;">
                     applications表
@@ -23,7 +30,7 @@
             </el-menu-item>
 
             <!--table02列表-->
-            <el-submenu index="4" style="max-width:85px; padding: 0px;">
+            <el-submenu index="5" style="max-width:85px; padding: 0px;">
 
                 <template slot="title" style="padding:0px;">data表</template>
 
@@ -36,7 +43,7 @@
             </el-submenu>
 
             <!--dec周对比图-->
-            <el-menu-item index="5" style="max-width:150px;padding: 0px 10px;" @click="toChartART">
+            <el-menu-item index="6" style="max-width:150px;padding: 0px 10px;" @click="toChartART">
                 <a href="#chart" style="width: 100%;height:100%;text-decoration: none;display: block;">
                     dec图
                 </a>
@@ -68,7 +75,6 @@
                     this.tableNames = res.data;
                 });
             }
-
         },
         methods: {
             handleSelect(key, keyPath) {

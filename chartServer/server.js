@@ -117,9 +117,8 @@ function dataBack(req, data) {
 
     var lastWeekDays = getBeforeDay(req.query.applyDate, 6);
     var last30Days = getBeforeDay(req.query.applyDate, 29);
-
     for (var i = 0; i < data.length; i++) {
-        if (((req.query.productName == "全部") || (req.query.productName == data[i].productName)) && ((req.query.channelId == "0") || (req.query.channelId == data[i].channelId)) && ((req.query.isNew == "All") || ((req.query.isNew == 'isNew') && data[i].isNew)) && req.query.scoreName == data[i].scoreName) {
+        if (((req.query.productName == "全部") || (req.query.productName == data[i].productName)) && ((req.query.channelId == "0") || (req.query.channelId == data[i].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == data[i].isNew)) && req.query.scoreName == data[i].scoreName) {
             if (new Date(data[i].applyDate) <= new Date(req.query.applyDate) && new Date(data[i].applyDate) >= new Date(last30Days)) {
                 backData.last30Days.tableArr.push(data[i]);
                 if (new Date(data[i].applyDate) <= new Date(req.query.applyDate) && new Date(data[i].applyDate) >= new Date(lastWeekDays)) {
@@ -166,20 +165,21 @@ function dataBack(req, data) {
 
     }
 
-    function ratio(dataObj) {
-        var allNum = 0;
-        for (var k = 0; k < dataObj.chartData.length; k++) {
-            allNum += dataObj.chartData[k];
-        }
-        for (var j = 0; j < dataObj.chartData.length; j++) {
-            dataObj.ratioData[j] = (dataObj.chartData[j] / allNum * 100).toFixed(2);
-        }
-    }
 
     ratio(backData.today);
     ratio(backData.lastWeek);
     ratio(backData.last30Days);
     return backData;
+}
+
+function ratio(dataObj) {
+    var allNum = 0;
+    for (var k = 0; k < dataObj.chartData.length; k++) {
+        allNum += dataObj.chartData[k];
+    }
+    for (var j = 0; j < dataObj.chartData.length; j++) {
+        dataObj.ratioData[j] = (dataObj.chartData[j] / allNum * 100).toFixed(2);
+    }
 }
 
 //数组去重
@@ -233,8 +233,9 @@ app.get("/productsData", function (req, res) {
     // var chartArr =
     for (var i in classfiyName) {
         backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
+        backData["_" + i] = Array.apply(null, Array(arrlength)).map(() => 0);
         for (var j = 0; j < classfiyName[i].length; j++) {
-            if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || ((req.query.isNew == 'isNew') && classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
+            if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
                 if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
                     if (req.query.sectionIpt == "true") {
                         for (var l = 0; l < arrlength; l++) {
@@ -252,8 +253,18 @@ app.get("/productsData", function (req, res) {
                 }
             }
         }
+        var allNum = 0;
+        backData["_" + i] = [];
+        for (var k = 0; k < backData[i].length; k++) {
+            allNum += backData[i][k];
+        }
+        // console.log(allNum);
+        for (var j = 0; j < backData[i].length; j++) {
+
+            backData["_" + i][j] = allNum ? (backData[i][j] / allNum * 100).toFixed(2) : "0.00";
+        }
     }
-    console.log(backData);
+    // console.log(backData);
     res.send(backData);
 });
 
@@ -407,6 +418,7 @@ app.get("/chartART", function (req, res) {
     // console.log(backData);
     // var end = new Date().getTime();
     // console.log(end - start + "ms");
+
     res.send(backData);
 });
 

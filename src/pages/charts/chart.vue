@@ -101,10 +101,10 @@
 
             <!--type-->
             <el-button-group style="margin: 10px 0px;margin-left: 2%;">
-                <el-button type="primary" :class="{active1:backgroundColor3 == 0}" @click="typeRatio()">
+                <el-button type="primary" :class="{active1:backgroundColor3 == 0}" @click="typeRatio();typeRatio2();">
                     比例
                 </el-button>
-                <el-button type="primary" :class="{active1:backgroundColor3 == 1}" @click="typeNumber()">
+                <el-button type="primary" :class="{active1:backgroundColor3 == 1}" @click="typeNumber();typeNumber2()">
                     数量
                 </el-button>
             </el-button-group>
@@ -119,7 +119,8 @@
             </div>
         </el-card>
 
-        <el-card class="box-card" id="chartProducts" style="margin-top: 60px;margin-bottom: 30px">
+        <!--时间段-->
+        <el-card class="box-card" id="chartProducts" style="margin-bottom: 30px">
             <!--日期段-->
             <div class="block">
                 <el-date-picker
@@ -131,6 +132,7 @@
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
+                    @change="getProductsData"
                     align="right">
                 </el-date-picker>
             </div>
@@ -138,6 +140,7 @@
             <div id="productsChart" :style="{width:'100%',height:'400px'}"></div>
         </el-card>
 
+        <!--scoreTable-->
         <el-card class="box-card" id="table01" style="text-align: left;margin-bottom: 20px;text-align: center;">
             <el-row>
                 <el-col :span="24">
@@ -161,16 +164,9 @@
                             style="min-width: 0px;max-height: 500px;margin-top: 50px;overflow-y: auto;overflow-x:
                             hidden;float:
                         right;text-align:center">
-                            <el-table-column prop="applicationId" label="applicationId"
-                                header-align="center">
-                            </el-table-column>
-                            <el-table-column prop="idNumber" label="idNumber" header-align="center">
-                            </el-table-column>
-                            <el-table-column prop="scoreName" label="scoreName" header-align="center"
-                                sortable>
-                            </el-table-column>
-                            <el-table-column prop="applyDate" label="applyDate" header-align="center"
-                                sortable>
+                            <el-table-column v-for="item in subTitle" :key="item" :prop="item" :label="item"
+                                header-align="center" sortable>
+                                {{item}}
                             </el-table-column>
                         </el-table>
                     </div>
@@ -209,10 +205,17 @@
                 oldNew: ["All", "isNew", "isOld"],
                 isometry: true,
                 sectionIpt: true,
-
                 isNew: "All",
                 thisDay: '',
                 scoreName: 'appscore',
+                subTitle: ["applicationId",
+                    "idNumber",
+                    "applyDate",
+                    "scoreName",
+                    "productName",
+                    "channelId",
+                    "isNew",
+                    "appscore"],
 
                 subSection: 100,
                 maxScore: 1000,
@@ -247,6 +250,10 @@
                     }]
                 },
                 timeSlot: [new Date("2018-03-27"), new Date()],
+                chart2Names: [],
+                seriesNb: [],
+                seriesRt: []
+
             }
         }
         ,
@@ -260,6 +267,7 @@
                 this.scoreNames = res.data[0].scoreName;
             });
             this.drawLine();
+            this.drawLine2();
             this.getProductsData()
         }
         ,
@@ -392,13 +400,6 @@
                             }, {
                                 name: '前一周用户',
                                 type: 'line',
-                                itemStyle: {
-                                    normal: {
-                                        // areaStyle: {
-                                        //     type: 'default'
-                                        // }
-                                    }
-                                },
                                 smooth: false,
                                 data: this.chartDatas.lastWeek.chartData
                             }, {
@@ -519,10 +520,23 @@
             //是否为新用户
             newOrOld(boolString, index) {
                 this.backgroundColor2 = index;
-                this.isNew = boolString;
+                switch (boolString) {
+                    case "isNew" :
+                        this.isNew = 0;
+                        break;
+                    case "All" :
+                        this.isNew = "All";
+                        break;
+                    case "isOld":
+                        this.isNew = 1;
+                        break;
+                    default:
+                        ;
+                }
                 if (this.thisDay) {
                     this.getDatas()
                 }
+                this.getProductsData()
             },
 
             //修改查询的scoreName
@@ -534,21 +548,25 @@
                     this.isometry = true;
                 }
                 this.scoreName = name;
+                this.subTitle[7] = name;
                 if (this.thisDay) {
                     this.getDatas()
                 }
+                this.getProductsData()
             },
 
             isFIS() {
                 this.backgroundColor5 = 0;
                 this.sectionIpt = true;
                 this.getDatas();
+                this.getProductsData()
             },
 
             isNotFIS() {
                 this.backgroundColor5 = 1;
                 this.sectionIpt = false;
                 this.getDatas();
+                this.getProductsData()
             },
 
             //修改日期获取数据
@@ -565,6 +583,7 @@
                     if (this.thisDay) {
                         this.getDatas()
                     }
+                    this.getProductsData()
                 } else {
                     this.$alert('数值不能为负或者超过最大值', '提示', {
                         confirmButtonText: '确定',
@@ -585,6 +604,7 @@
                     if (this.thisDay) {
                         this.getDatas()
                     }
+                    this.getProductsData()
                 } else {
                     this.$alert('数值需要大于区间段', '提示', {
                         confirmButtonText: '确定',
@@ -606,7 +626,9 @@
                     if (this.thisDay) {
                         this.getDatas()
                     }
+
                 }
+                this.getProductsData()
             },
 
             //修改channelId
@@ -616,6 +638,7 @@
                         this.getDatas()
                     }
                 }
+                this.getProductsData()
             },
 
             //ajax请求数据
@@ -649,6 +672,7 @@
 
                     this.tableData = tableData;
                     this.tabledataobj = this.tableData.day;
+                    console.log(tableData.day);
                 }).then(() => {
                     this.typeRatio();
                 })
@@ -730,7 +754,8 @@
             },
 
             getProductsData() {
-                console.log(this.isNew);
+                console.log(this.timeSlot);
+                if (this.timeSlot == null) return;
                 this.$ajax.get('/productsData',
                     {
                         url: '/productsData',
@@ -747,9 +772,32 @@
                             scoreName: this.scoreName
                         }
                     }).then(res => {
-                    console.log(res);
-                })
-                this.drawLine2();
+                    this.chart2Names = [];
+                    this.seriesNb = [];
+                    this.seriesRt = [];
+                    for (var i in res.data) {
+                        if (i.indexOf('_') == -1) {
+
+                            this.chart2Names.push(i);
+                            this.seriesNb.push({
+                                name: i,
+                                type: 'line',
+                                smooth: false,
+                                data: res.data[i]
+                            });
+                            this.seriesRt.push({
+                                name: i,
+                                type: 'line',
+                                smooth: false,
+                                data: res.data["_" + i]
+                            })
+                        }
+
+                    }
+
+                    this.typeRatio2();
+                });
+
 
             },
 
@@ -761,7 +809,7 @@
                 myChart2.setOption({
 
                     title: {
-                        text: '用户score分布',
+                        text: '产品score分布',
                         x: '0px',
                         y: '25px',
                         textStyle: {
@@ -783,7 +831,7 @@
                     },
 
                     legend: {
-                        data: ['当日用户', '前一周用户', '前30天用户']
+                        data: this.chart2Names
                     },
 
                     toolbox: {
@@ -825,68 +873,103 @@
 
                     yAxis: {type: 'value'},
 
-                    series: []
+                    series: this.seriesRt
                 });
             },
 
             typeNumber2() {
                 this.backgroundColor3 = 1;
-                if (this.ischartDatas == true) {
-                    let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
-                    myChart.setOption({
+                let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
+                myChart2.setOption({
 
-                        tooltip: {
-                            align: 'left',
-                            formatter: function (params) {
-                                var relVal = params[0].name;
-                                for (var i = 0, l = params.length; i < l; i++) {
-                                    relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value + "人";
-                                }
-                                return relVal;
+                    tooltip: {
+                        align: 'left',
+                        formatter: function (params) {
+                            var relVal = params[0].name;
+                            for (var i = 0, l = params.length; i < l; i++) {
+                                relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value + "人";
                             }
+                            return relVal;
+                        }
+                    },
+
+                    legend: {
+                        data: this.chart2Names
+                    },
+
+                    xAxis: [{
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.xAxis(),
+                        axisLabel: {
+                            interval: 'auto',
+                            rotate: 55
                         },
+                    }],
 
-                        xAxis: [{
-                            type: 'category',
-                            boundaryGap: false,
-                            data: this.xAxis(),
-                            axisLabel: {
-                                interval: 'auto',
-                                rotate: 55
-                            },
-                        }],
-
-                        yAxis: {
-                            type: 'value',
-                            axisLabel: {
-                                show: true,
-                                interval: 'auto',
-                                formatter: '{value}'
-                            },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            show: true,
+                            interval: 'auto',
+                            formatter: '{value}'
                         },
+                    },
 
-                        // series:
-                            // [
-                            // {
-                            //     name: '前30天用户',
-                            //     type: 'line',
-                            //     smooth: false,
-                            //     data: this.chartDatas.last30Days.chartData
-                            // }, {
-                            //     name: '前一周用户',
-                            //     type: 'line',
-                            //     smooth: false,
-                            //     data: this.chartDatas.lastWeek.chartData
-                            // }, {
-                            //     name: '当日用户',
-                            //     type: 'line',
-                            //     smooth: false,
-                            //     data: this.chartDatas.today.chartData
-                            // }]
-                    });
-                }
+                    series: this.seriesNb
+                });
+
             },
+
+            typeRatio2() {
+                this.backgroundColor3 = 0;
+                let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
+                myChart2.setOption({
+
+                    tooltip: {
+                        align: 'left',
+                        formatter: function (params) {
+                            var relVal = params[0].name;
+                            for (var i = 0, l = params.length; i < l; i++) {
+                                if (params[i].value != "NaN") {
+                                    relVal +=
+                                        '<br/>' + params[i].seriesName + ' : ' + params[i].value + "%";
+                                } else {
+                                    relVal +=
+                                        '<br/>' + params[i].seriesName + ' : ' + '0' + "%";
+                                }
+                            }
+                            return relVal;
+                        }
+                    },
+                    legend: {
+                        data: this.chart2Names
+                    },
+
+                    xAxis: [{
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.xAxis(),
+                        axisLabel: {
+                            interval: 'auto',
+                            rotate: 55
+                        },
+                    }],
+
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            show: true,
+                            interval: 'auto',
+                            formatter: '{value}%'
+                        },
+                    },
+
+                    series: this.seriesRt
+                });
+            }
         }
+
     }
 </script>
 

@@ -367,7 +367,6 @@
 
             //修改日期
             changeDate() {
-                console.log(this.thisDay)
                 this.getData()
             },
 

@@ -6,7 +6,7 @@
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
-    "isNew": "true",
+    "isNew": 0,
     "appscore": 850
   }, {
   "applicationId": 1038693,
@@ -15,7 +15,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038690,
@@ -24,7 +24,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038701,
@@ -33,7 +33,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038702,
@@ -42,7 +42,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038703,
@@ -51,7 +51,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038704,
@@ -60,7 +60,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038705,
@@ -69,7 +69,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 100
 }, {
   "applicationId": 1038706,
@@ -78,7 +78,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038707,
@@ -87,7 +87,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038708,
@@ -96,7 +96,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038709,
@@ -105,7 +105,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038710,
@@ -114,7 +114,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -123,7 +123,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 },
   {
@@ -133,7 +133,7 @@
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
-    "isNew": "true",
+    "isNew": 0,
     "appscore": 850
   }, {
   "applicationId": 1038693,
@@ -142,7 +142,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038690,
@@ -151,7 +151,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038701,
@@ -160,7 +160,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038702,
@@ -169,7 +169,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038703,
@@ -178,7 +178,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038704,
@@ -187,7 +187,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038705,
@@ -196,7 +196,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 300
 }, {
   "applicationId": 1038706,
@@ -205,7 +205,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038707,
@@ -214,7 +214,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038708,
@@ -223,7 +223,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038709,
@@ -232,7 +232,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038710,
@@ -241,7 +241,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -250,7 +250,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 },
   {
@@ -260,7 +260,7 @@
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
-    "isNew": "true",
+    "isNew": 0,
     "appscore": 850
   }, {
   "applicationId": 1038693,
@@ -269,7 +269,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038690,
@@ -278,7 +278,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038701,
@@ -287,7 +287,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038702,
@@ -296,7 +296,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038703,
@@ -305,7 +305,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038704,
@@ -314,7 +314,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 850
 }, {
   "applicationId": 1038705,
@@ -323,7 +323,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 900
 }, {
   "applicationId": 1038706,
@@ -332,7 +332,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038707,
@@ -341,7 +341,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038708,
@@ -350,7 +350,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038709,
@@ -359,7 +359,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038710,
@@ -368,7 +368,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -377,7 +377,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 },
   {
@@ -387,7 +387,7 @@
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
-    "isNew": "true",
+    "isNew": 0,
     "appscore": 850
   }, {
   "applicationId": 1038693,
@@ -396,7 +396,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 100
 }, {
   "applicationId": 1038690,
@@ -405,7 +405,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 100
 }, {
   "applicationId": 1038701,
@@ -414,7 +414,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 200
 }, {
   "applicationId": 1038702,
@@ -423,7 +423,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 500
 }, {
   "applicationId": 1038703,
@@ -432,7 +432,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038703,
@@ -441,7 +441,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 25
 }, {
   "applicationId": 1038704,
@@ -450,7 +450,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 350
 }, {
   "applicationId": 1038705,
@@ -459,7 +459,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 888
 }, {
   "applicationId": 1038706,
@@ -468,7 +468,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038707,
@@ -477,7 +477,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038708,
@@ -486,7 +486,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "appscore": 405
 }, {
   "applicationId": 1038709,
@@ -495,7 +495,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038710,
@@ -504,7 +504,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038710,
@@ -513,7 +513,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -522,7 +522,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -531,7 +531,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -540,7 +540,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -549,7 +549,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -558,7 +558,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -567,7 +567,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -576,7 +576,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -585,7 +585,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -594,7 +594,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -603,7 +603,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -612,7 +612,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -621,7 +621,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -630,7 +630,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -639,7 +639,25 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 0,
+  "appscore": 405
+}, {
+  "applicationId": 1038711,
+  "idNumber": 130898199009091111,
+  "applyDate": "2018-04-29",
+  "scoreName": "appscore",
+  "productName": "易借款",
+  "channelId": "16",
+  "isNew": 1,
+  "appscore": 405
+},{
+  "applicationId": 1038711,
+  "idNumber": 130898199009091111,
+  "applyDate": "2018-04-29",
+  "scoreName": "appscore",
+  "productName": "小借",
+  "channelId": "16",
+  "isNew": 1,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -648,7 +666,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -657,7 +675,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -666,16 +684,7 @@
   "scoreName": "appscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
-  "appscore": 405
-}, {
-  "applicationId": 1038711,
-  "idNumber": 130898199009091111,
-  "applyDate": "2018-04-29",
-  "scoreName": "appscore",
-  "productName": "小借",
-  "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "appscore": 405
 }, {
   "applicationId": 1038711,
@@ -684,7 +693,7 @@
   "scoreName": "jscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "jscore": 405
 }, {
   "applicationId": 1038711,
@@ -693,7 +702,7 @@
   "scoreName": "jscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "jscore": 405
 }, {
   "applicationId": 1038711,
@@ -702,7 +711,7 @@
   "scoreName": "jscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "jscore": 405
 }, {
   "applicationId": 1038711,
@@ -711,7 +720,7 @@
   "scoreName": "jscore",
   "productName": "小借",
   "channelId": "16",
-  "isNew": "true",
+  "isNew": 1,
   "jscore": 405
 }
 ]
