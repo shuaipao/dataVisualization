@@ -9,6 +9,7 @@
                 </el-date-picker>
             </div>
 
+
             <!--weeksNb-->
             <div class="demo-input-suffix"
                 style="color: #a8a8a8;display: inline-block;width: 280px;margin: 5px 10px 5px">
@@ -19,6 +20,17 @@
                     @keyup.enter.native="thisInputBlur($event)">
                 </el-input>
             </div>
+
+            <!--newORold-->
+            <el-button-group style="margin-left: 2%;white-space: nowrap;">
+                <el-button v-for="(item2,index2) in oldNew" type="success"
+                    :key="item2"
+                    @click="newOrOld(item2,index2)"
+                    :class="{active2:backgroundColor2 == index2}"
+                    style="padding: 12px 10px">
+                    {{item2}}
+                </el-button>
+            </el-button-group>
 
             <hr>
 
@@ -52,6 +64,9 @@
                 thisDay: new Date(),
                 weeksNb: 10,
                 sectionIpt: true,
+                oldNew: ["All", "isNew", "isOld"],
+                isNew: "All",
+                backgroundColor2: 0,
                 xaxis: ["2018/3/17-2018/3/23",
                     "2018/3/24-2018/3/30", "2018/3/31-2018/4/6", "2018/4/7-2018/4/13", "2018/4/14-2018/4/20",
                     "2018/4/21-2018/4/27", "2018/4/28-2018/5/4"],
@@ -66,6 +81,24 @@
 
         methods: {
 
+            newOrOld(boolString, index) {
+                this.backgroundColor2 = index;
+                switch (boolString) {
+                    case "isNew" :
+                        this.isNew = 0;
+                        break;
+                    case "All" :
+                        this.isNew = "All";
+                        break;
+                    case "isOld":
+                        this.isNew = 1;
+                        break;
+                    default:
+                        ;
+                }
+                this.getData()
+            },
+
             //获取后台数据
             getData() {
                 var start = new Date().getTime();
@@ -74,13 +107,14 @@
                     baseURL: process.env.API_BASEURL,
                     params: {
                         date: this.thisDay,
-                        weeksNb: this.weeksNb
+                        weeksNb: this.weeksNb,
+                        isNew: this.isNew
                     }
 
                 }).then((res) => {
-                    var end = new Date().getTime();
-                    console.log("ajax" + (end - start) + "ms");
-                    start = end;
+                    // var end = new Date().getTime();
+                    // console.log("ajax" + (end - start) + "ms");
+                    // start = end;
                     var dataArr = {};
                     var dateArr = [];
                     for (var i in res.data) {
@@ -115,10 +149,22 @@
                     }
                     this.xaxis = dateArr;
                     this.dataArr = dataArr;
-                    this.ART_Ratio();
-                    end = new Date().getTime();
-                    console.log("ART_Ratio" + (end - start) + "ms");
-                    start = end;
+                    switch (this.backgroundColor3) {
+                        case 0:
+                            this.ART_Ratio();
+                            break;
+                        case 1:
+                            this.ART_Number(this.seriesNb(0));
+                            break ;
+                        case 2:
+                            this.ART_Number(this.seriesNb(1));
+                            break ;
+                        default:
+                    };
+
+                    // end = new Date().getTime();
+                    // console.log("ART_Ratio" + (end - start) + "ms");
+                    // start = end;
                 });
             },
 
@@ -359,7 +405,7 @@
                 this.ART_Number(this.seriesNb(0))
             },
 
-            //申请分部
+            //申请分布
             typeApply() {
                 this.backgroundColor3 = 2;
                 this.ART_Number(this.seriesNb(1))

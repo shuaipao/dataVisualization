@@ -1,0 +1,975 @@
+[
+  {
+    "applicationId": 1040435,
+    "idNumber": "320303199208100416",
+    "appscore": 352.55,
+    "scoreName": "appscore",
+    "channelId": 210,
+    "isNew": 0,
+    "applyDate": "2018-05-03",
+    "productName": "易借款_前期收费_C"
+  }, {
+  "applicationId": 1040440,
+  "idNumber": "152701198510130020",
+  "appscore": 268.975,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040450,
+  "idNumber": "370725198808101214",
+  "appscore": 317.186,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040451,
+  "idNumber": "320105198408151610",
+  "appscore": 295.088,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040459,
+  "idNumber": "321121199603272210",
+  "appscore": 356.506,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040471,
+  "idNumber": "320103198012062010",
+  "appscore": 287.126,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040481,
+  "idNumber": "450327199008201618",
+  "appscore": 349.719,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040484,
+  "idNumber": "522323199305078518",
+  "appscore": 336.907,
+  "scoreName": "appscore",
+  "channelId": 57558,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040497,
+  "idNumber": "511621198702191190",
+  "appscore": 308.693,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040508,
+  "idNumber": "34240119910922493X",
+  "appscore": 327.36,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040527,
+  "idNumber": "211321198909105395",
+  "appscore": 317.953,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040557,
+  "idNumber": "341222199206127912",
+  "appscore": 364.242,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040644,
+  "idNumber": "450121199208171813",
+  "appscore": 332.116,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040674,
+  "idNumber": "340121199201268510",
+  "appscore": 341.709,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040768,
+  "idNumber": "500235199308233717",
+  "appscore": 363.905,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040780,
+  "idNumber": "220523199211091816",
+  "appscore": 343.713,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040800,
+  "idNumber": "411481199403063435",
+  "appscore": 354.051,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040802,
+  "idNumber": "321023199001013059",
+  "appscore": 362.742,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040816,
+  "idNumber": "510104198411211273",
+  "appscore": 309.873,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040820,
+  "idNumber": "610526199004192835",
+  "appscore": 322.639,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040822,
+  "idNumber": "320722198410011237",
+  "appscore": 295.088,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040824,
+  "idNumber": "42108719880323791X",
+  "appscore": 322.544,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040510,
+  "idNumber": "445222199401243633",
+  "appscore": 354.967,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040852,
+  "idNumber": "370302198908170819",
+  "appscore": 330.143,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040879,
+  "idNumber": "420322199212127219",
+  "appscore": 346.387,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040886,
+  "idNumber": "150203198305284251",
+  "appscore": 299.494,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040900,
+  "idNumber": "460033198706293888",
+  "appscore": 277.092,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040906,
+  "idNumber": "431224199104010048",
+  "appscore": 316.925,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040939,
+  "idNumber": "51302219890929001X",
+  "appscore": 342.957,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040957,
+  "idNumber": "511025198308163370",
+  "appscore": 298.201,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040958,
+  "idNumber": "62262619940312373X",
+  "appscore": 360.977,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040966,
+  "idNumber": "370102199110033739",
+  "appscore": 345.67,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041061,
+  "idNumber": "431023198909280617",
+  "appscore": 317.953,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041073,
+  "idNumber": "510625198002010218",
+  "appscore": 277.502,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040600,
+  "idNumber": "450411198911140081",
+  "appscore": 314.155,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041081,
+  "idNumber": "330681199307140322",
+  "appscore": 297.459,
+  "scoreName": "appscore",
+  "channelId": 281870,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040476,
+  "idNumber": "430202198810246652",
+  "appscore": 332.22,
+  "scoreName": "appscore",
+  "channelId": 2,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040478,
+  "idNumber": "43062319840118305X",
+  "appscore": 312.168,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040502,
+  "idNumber": "44050619770325113X",
+  "appscore": 273.432,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040633,
+  "idNumber": "330225198903111977",
+  "appscore": 350.947,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040902,
+  "idNumber": "420324198702220035",
+  "appscore": 349.679,
+  "scoreName": "appscore",
+  "channelId": 2,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040932,
+  "idNumber": "64010219940210061X",
+  "appscore": 341.732,
+  "scoreName": "appscore",
+  "channelId": 54075,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040956,
+  "idNumber": "440509199212224418",
+  "appscore": 353.381,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040960,
+  "idNumber": "420902198210295019",
+  "appscore": 286.214,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040990,
+  "idNumber": "32112119780228141X",
+  "appscore": 330.166,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041006,
+  "idNumber": "431126199209058416",
+  "appscore": 329.018,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041022,
+  "idNumber": "320684199006210064",
+  "appscore": 311.385,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041043,
+  "idNumber": "120224199406101515",
+  "appscore": 341.732,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041051,
+  "idNumber": "511621199303116470",
+  "appscore": 341.609,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041063,
+  "idNumber": "440924197907204954",
+  "appscore": 321.998,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041111,
+  "idNumber": "440881199701147246",
+  "appscore": 312.962,
+  "scoreName": "appscore",
+  "channelId": 54075,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_趸交"
+}, {
+  "applicationId": 1040904,
+  "idNumber": "130283199011307051",
+  "appscore": 346.205,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041048,
+  "idNumber": "440582198712185833",
+  "appscore": 308.693,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1041060,
+  "idNumber": "150421199509062122",
+  "appscore": 305.318,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041095,
+  "idNumber": "36223319861016161X",
+  "appscore": 331.72,
+  "scoreName": "appscore",
+  "channelId": 2,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易分期_千一产品"
+}, {
+  "applicationId": 1041106,
+  "idNumber": "441424198809196952",
+  "appscore": 325.199,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1041115,
+  "idNumber": "440102198306195215",
+  "appscore": 290.631,
+  "scoreName": "appscore",
+  "channelId": 267476,
+  "isNew": 0,
+  "applyDate": "2018-05-04",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applyDate": "2018-05-03",
+  "maxScore": "1000",
+  "subSection": "100",
+  "channelId": "0",
+  "productName": "全部",
+  "isNew": "All",
+  "scoreName": "appscore",
+  "sectionIpt": "true"
+}, {
+  "applicationId": 1039440,
+  "idNumber": "360723198701140710",
+  "appscore": 317.151,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-04-29",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1039676,
+  "idNumber": "130323198101090217",
+  "appscore": 298.128,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-30",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040047,
+  "idNumber": "410223199708013513",
+  "appscore": 355.966,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040268,
+  "idNumber": "230119198306220335",
+  "appscore": 290.631,
+  "scoreName": "appscore",
+  "channelId": 54075,
+  "isNew": 0,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040284,
+  "idNumber": "150223199110151811",
+  "appscore": 327.36,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040291,
+  "idNumber": "432524199412191431",
+  "appscore": 356.373,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040435,
+  "idNumber": "320303199208100416",
+  "appscore": 352.55,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040440,
+  "idNumber": "152701198510130020",
+  "appscore": 268.975,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040450,
+  "idNumber": "370725198808101214",
+  "appscore": 317.186,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040451,
+  "idNumber": "320105198408151610",
+  "appscore": 295.088,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040459,
+  "idNumber": "321121199603272210",
+  "appscore": 356.506,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040471,
+  "idNumber": "320103198012062010",
+  "appscore": 287.126,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040481,
+  "idNumber": "450327199008201618",
+  "appscore": 349.719,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040484,
+  "idNumber": "522323199305078518",
+  "appscore": 336.907,
+  "scoreName": "appscore",
+  "channelId": 57558,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040497,
+  "idNumber": "511621198702191190",
+  "appscore": 308.693,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040508,
+  "idNumber": "34240119910922493X",
+  "appscore": 327.36,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040527,
+  "idNumber": "211321198909105395",
+  "appscore": 317.953,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040557,
+  "idNumber": "341222199206127912",
+  "appscore": 364.242,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040644,
+  "idNumber": "450121199208171813",
+  "appscore": 332.116,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040674,
+  "idNumber": "340121199201268510",
+  "appscore": 341.709,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1038640,
+  "idNumber": "450103199306031520",
+  "appscore": 286.236,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-27",
+  "productName": "易借款_前期收费150"
+}, {
+  "applicationId": 1040087,
+  "idNumber": "45048119910712245X",
+  "appscore": 327.36,
+  "scoreName": "appscore",
+  "channelId": 2,
+  "isNew": null,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1039822,
+  "idNumber": "370283199506198314",
+  "appscore": 363.888,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": null,
+  "applyDate": "2018-04-30",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1039066,
+  "idNumber": "320911198910138017",
+  "appscore": 317.953,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费150"
+}, {
+  "applicationId": 1039241,
+  "idNumber": "431224198503132718",
+  "appscore": 314.189,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1038969,
+  "idNumber": "513622198211152312",
+  "appscore": 319.38,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费150"
+}, {
+  "applicationId": 1039143,
+  "idNumber": "500235199108220516",
+  "appscore": 344.486,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1039051,
+  "idNumber": "450330199111050019",
+  "appscore": 327.36,
+  "scoreName": "appscore",
+  "channelId": 267476,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费150"
+}, {
+  "applicationId": 1039248,
+  "idNumber": "32028119910227303X",
+  "appscore": 346.695,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-28",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1039671,
+  "idNumber": "450923198705128818",
+  "appscore": 348.24,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-04-30",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1039966,
+  "idNumber": "370687199008142868",
+  "appscore": 298.687,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040129,
+  "idNumber": "320219198011076556",
+  "appscore": 277.502,
+  "scoreName": "appscore",
+  "channelId": 210,
+  "isNew": null,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040120,
+  "idNumber": "511622199508206433",
+  "appscore": 363.968,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040286,
+  "idNumber": "440106198007021835",
+  "appscore": 299.45,
+  "scoreName": "appscore",
+  "channelId": 54075,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040293,
+  "idNumber": "331082199311154676",
+  "appscore": 336.907,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040294,
+  "idNumber": "362334199102052130",
+  "appscore": 339.227,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040332,
+  "idNumber": "420503198702131840",
+  "appscore": 274.275,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040394,
+  "idNumber": "420106198512190011",
+  "appscore": 311.578,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040510,
+  "idNumber": "445222199401243633",
+  "appscore": 354.967,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040265,
+  "idNumber": "142727198307232533",
+  "appscore": 298.625,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040003,
+  "idNumber": "230102198911183424",
+  "appscore": 268.977,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-01",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040212,
+  "idNumber": "500383199611059631",
+  "appscore": 361.612,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040305,
+  "idNumber": "440811198304212338",
+  "appscore": 319.157,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040396,
+  "idNumber": "420102198111082831",
+  "appscore": 281.838,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": null,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040600,
+  "idNumber": "450411198911140081",
+  "appscore": 314.155,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040398,
+  "idNumber": "360423199604210412",
+  "appscore": 360.683,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-02",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040476,
+  "idNumber": "430202198810246652",
+  "appscore": 332.22,
+  "scoreName": "appscore",
+  "channelId": 2,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040478,
+  "idNumber": "43062319840118305X",
+  "appscore": 312.168,
+  "scoreName": "appscore",
+  "channelId": 197,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}, {
+  "applicationId": 1040502,
+  "idNumber": "44050619770325113X",
+  "appscore": 273.432,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费_C"
+}, {
+  "applicationId": 1040633,
+  "idNumber": "330225198903111977",
+  "appscore": 350.947,
+  "scoreName": "appscore",
+  "channelId": 19,
+  "isNew": 0,
+  "applyDate": "2018-05-03",
+  "productName": "易借款_前期收费产品"
+}
+]

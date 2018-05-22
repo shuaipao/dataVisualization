@@ -97,6 +97,7 @@
                     异距
                 </el-button>
             </el-button-group>
+
             <hr style="margin-top: 5px"/>
 
             <!--type-->
@@ -249,7 +250,7 @@
                         }
                     }]
                 },
-                timeSlot: [new Date("2018-03-27"), new Date()],
+                timeSlot: [new Date("2018-05-27"), new Date("2018-05-29")],
                 chart2Names: [],
                 seriesNb: [],
                 seriesRt: []
@@ -578,7 +579,6 @@
 
             //验证分数区间
             sectionCheck() {
-
                 if (this.subSection > 0 && this.subSection <= 1000) {
                     if (this.thisDay) {
                         this.getDatas()
@@ -672,7 +672,6 @@
 
                     this.tableData = tableData;
                     this.tabledataobj = this.tableData.day;
-                    console.log(tableData.day);
                 }).then(() => {
                     this.typeRatio();
                 })
@@ -695,66 +694,27 @@
 
             },
 
+            //table按钮1
             today(index) {
                 this.backgroundColor4 = index;
                 this.tabledataobj = this.tableData.day;
             },
 
+            //table按钮2
             lastWeek(index) {
                 this.backgroundColor4 = index;
                 this.tabledataobj = this.tableData.week;
             },
 
+            //table按钮3
             last30Days(index) {
                 this.backgroundColor4 = index;
                 this.tabledataobj = this.tableData.month;
             },
 
-            filter_01(days) {
-                var day = new Date(this.$store.state.value01);
-                var dayArr = [];
-
-                function getBeforeDay(d, daysNumber) {
-                    d = new Date(d);
-                    d = +d - 1000 * 60 * 60 * 24 * daysNumber;
-                    d = new Date(d);
-                    var year = d.getFullYear();
-                    var mon = d.getMonth() + 1;
-                    var day = d.getDate();
-                    var s = year + "-" + (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
-                    return s;
-                }
-
-                for (var i = 0; i < days; i++) {
-                    dayArr.push({
-                        text: getBeforeDay(day, 1),
-                        value: getBeforeDay(day, 1)
-                    })
-                }
-                return dayArr;
-            },
-
-            filterHandler(value, row, column) {
-                const property = column['property'];
-                return row[property] === value;
-            },
-
-            //productsCahrt
-
-            datedifference(sDate1, sDate2) {
-                var dateSpan,
-                    tempDate,
-                    iDays;
-                sDate1 = Date.parse(sDate1);
-                sDate2 = Date.parse(sDate2);
-                dateSpan = sDate2 - sDate1;
-                dateSpan = Math.abs(dateSpan);
-                iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
-                return iDays
-            },
-
+            //获取所有产品对应数据
             getProductsData() {
-                console.log(this.timeSlot);
+                console.log(this.seriesRt, this.seriesNb);
                 if (this.timeSlot == null) return;
                 this.$ajax.get('/productsData',
                     {
@@ -775,9 +735,10 @@
                     this.chart2Names = [];
                     this.seriesNb = [];
                     this.seriesRt = [];
-                    for (var i in res.data) {
-                        if (i.indexOf('_') == -1) {
 
+                    for (var i in res.data) {
+                        if (i.indexOf('_') != 0) {
+                            console.log(i);
                             this.chart2Names.push(i);
                             this.seriesNb.push({
                                 name: i,
@@ -795,12 +756,14 @@
 
                     }
 
+                }).then(() => {
+                    // console.log(this.chart2Names)
+                    this.drawLine2();
                     this.typeRatio2();
                 });
-
-
             },
 
+            //chart图骨架
             drawLine2() {
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
                 window.onresize = function () {
@@ -877,6 +840,7 @@
                 });
             },
 
+            //chart图 数量
             typeNumber2() {
                 this.backgroundColor3 = 1;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
@@ -921,7 +885,9 @@
 
             },
 
+            //chart图 比例
             typeRatio2() {
+                console.log(333);
                 this.backgroundColor3 = 0;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
                 myChart2.setOption({

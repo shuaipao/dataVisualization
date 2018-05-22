@@ -230,6 +230,7 @@ app.get("/productsData", function (req, res) {
     } else {
         arrlength = jscoreImmediate.length / 2;
     }
+
     // var chartArr =
     for (var i in classfiyName) {
         backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
@@ -400,8 +401,7 @@ app.get("/chartART", function (req, res) {
         ratio[i] = {};
         for (var k = 0; k < classfiyName[i].length; k++) {
             for (var j = 0; j < weeks.length; j++) {
-
-                if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])) {
+                if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])  && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                     backData[i].all++;
                     if (classfiyName[i][k].decCode == "SUCCESS") {
