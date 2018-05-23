@@ -1,6 +1,10 @@
 <template>
     <div id="home">
+
+
         <el-card class="box-card" id="chart" style="margin-top: 60px;margin-bottom: 30px">
+
+            <Btns :btnArr="typeBtn" :btnType="btnType" @getColor="getNewOrOld"></Btns>
 
             <div class="block" style="margin-bottom: 5px">
 
@@ -123,7 +127,7 @@
         <!--时间段-->
         <el-card class="box-card" id="chartProducts" style="margin-bottom: 30px">
             <!--日期段-->
-            <div class="block">
+            <div class="block" style="margin-bottom: 30px">
                 <el-date-picker
                     v-model="timeSlot"
                     type="datetimerange"
@@ -179,10 +183,15 @@
 </template>
 
 <script>
+    import Btns from "../md"
+
     export default {
         name: "chart",
+        components: {Btns},
         data() {
             return {
+                typeBtn: ["All", "isNew", "isOld"],
+                btnType: "success",
                 applications: [],
                 pickerOptions: {},
                 chartDatas: {},
@@ -273,6 +282,11 @@
         }
         ,
         methods: {
+
+            getNewOrOld(item) {
+                console.log(item);
+            },
+
             //echarts初始化
             drawLine() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
@@ -714,7 +728,6 @@
 
             //获取所有产品对应数据
             getProductsData() {
-                console.log(this.seriesRt, this.seriesNb);
                 if (this.timeSlot == null) return;
                 this.$ajax.get('/productsData',
                     {
@@ -738,7 +751,6 @@
 
                     for (var i in res.data) {
                         if (i.indexOf('_') != 0) {
-                            console.log(i);
                             this.chart2Names.push(i);
                             this.seriesNb.push({
                                 name: i,
@@ -757,7 +769,6 @@
                     }
 
                 }).then(() => {
-                    // console.log(this.chart2Names)
                     this.drawLine2();
                     this.typeRatio2();
                 });
@@ -887,7 +898,6 @@
 
             //chart图 比例
             typeRatio2() {
-                console.log(333);
                 this.backgroundColor3 = 0;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
                 myChart2.setOption({

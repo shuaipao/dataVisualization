@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require('path');
 const join = path.join;
 var app = express();
+//cors(Cross-Origin Resource Sharing);
 app.all("*", function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", true);
@@ -14,8 +15,9 @@ app.all("*", function (req, res, next) {
     next();
 });
 app.use(bodyParser.urlencoded({extended: false}));
-
-//文件夹监控
+//监听端口
+app.listen(6780);
+//文件夹监控chokidar
 var watcher = null;
 var ready = false;
 var watchPath = './json/table02';
@@ -218,6 +220,7 @@ app.get("/upscore", function (req, res) {
 
 });
 
+//productsData接口(处理所有产品score分布)
 app.get("/productsData", function (req, res) {
     var data = fs.readFileSync('./json/applications.json').toString();
     var classfiyName = dec(JSON.parse(data));
@@ -401,7 +404,7 @@ app.get("/chartART", function (req, res) {
         ratio[i] = {};
         for (var k = 0; k < classfiyName[i].length; k++) {
             for (var j = 0; j < weeks.length; j++) {
-                if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])  && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
+                if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0]) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                     backData[i].all++;
                     if (classfiyName[i][k].decCode == "SUCCESS") {
@@ -422,6 +425,3 @@ app.get("/chartART", function (req, res) {
     res.send(backData);
 });
 
-
-//监听端口
-app.listen(6780);

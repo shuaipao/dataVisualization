@@ -1,8 +1,13 @@
 <template>
     <div id="table02">
+
         <el-card class="box-card" style="text-align: left;margin-bottom: 20px;text-align: center;">
+
             <el-row>
                 <el-col :span="24">
+                    <div>
+
+                    </div>
                     <div style="margin: 0px auto 30px">
                         <el-table :data="tableData" stripe header-align="center" border height="500"
                             style="min-width: 0px;margin-top: 50px;overflow-y: auto;overflow-x:
@@ -24,10 +29,12 @@
 <script>
     export default {
         name: "table02",
+
         data() {
             return {
                 tableData: [],
                 subTitle: [],
+
             }
         },
         props: ['jsonName'],
