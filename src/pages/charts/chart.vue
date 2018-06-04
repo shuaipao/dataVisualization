@@ -4,7 +4,6 @@
 
         <el-card class="box-card" id="chart" style="margin-top: 60px;margin-bottom: 30px">
 
-            <Btns :btnArr="typeBtn" :btnType="btnType" @getColor="getNewOrOld"></Btns>
 
             <div class="block" style="margin-bottom: 5px">
 
@@ -46,7 +45,6 @@
                     <el-form-item label="产品：">
                         <el-select v-model="productName" @input="productNameCheck" placeholder="proctName"
                             style="">
-
                             <el-option v-for="item in productNames" :key="item" :label="item" :value="item">
                             </el-option>
                         </el-select>
@@ -183,15 +181,12 @@
 </template>
 
 <script>
-    import Btns from "../md"
+
 
     export default {
         name: "chart",
-        components: {Btns},
         data() {
             return {
-                typeBtn: ["All", "isNew", "isOld"],
-                btnType: "success",
                 applications: [],
                 pickerOptions: {},
                 chartDatas: {},
@@ -282,11 +277,6 @@
         }
         ,
         methods: {
-
-            getNewOrOld(item) {
-                console.log(item);
-            },
-
             //echarts初始化
             drawLine() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
@@ -517,6 +507,7 @@
             xAxis() {
                 let arr = [];
                 if (this.sectionIpt) {
+
                     var arrlength = Math.ceil(this.maxScore / this.subSection);
                     for (let i = 0; i < arrlength; i++) {
                         if ((arrlength - 1) == i) {
@@ -562,9 +553,15 @@
                 } else {
                     this.isometry = true;
                 }
+
                 this.scoreName = name;
                 this.subTitle[7] = name;
                 if (this.thisDay) {
+                    this.backgroundColor3 = 0;
+                    this.isNew = this.oldNew[0];
+                    this.backgroundColor2 = 0;
+                    this.productName = "全部";
+                    this.channelId = '0'
                     this.getDatas()
                 }
                 this.getProductsData()
@@ -687,7 +684,12 @@
                     this.tableData = tableData;
                     this.tabledataobj = this.tableData.day;
                 }).then(() => {
-                    this.typeRatio();
+                    if(this.backgroundColor3 == 0){
+                        this.typeRatio();
+                    }else if(this.backgroundColor3 == 1) {
+                        this.typeNumber();
+                    }
+
                 })
             },
 
@@ -750,6 +752,7 @@
                     this.seriesRt = [];
 
                     for (var i in res.data) {
+                        // console.log(res.data);
                         if (i.indexOf('_') != 0) {
                             this.chart2Names.push(i);
                             this.seriesNb.push({
@@ -770,16 +773,20 @@
 
                 }).then(() => {
                     this.drawLine2();
-                    this.typeRatio2();
+                    if(this.backgroundColor3 == 0){
+                        this.typeRatio2();
+                    }
+
                 });
             },
 
             //chart图骨架
             drawLine2() {
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
+                myChart2.clear();
                 window.onresize = function () {
                     myChart2.resize();
-                }
+                };
                 myChart2.setOption({
 
                     title: {
@@ -856,7 +863,6 @@
                 this.backgroundColor3 = 1;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
                 myChart2.setOption({
-
                     tooltip: {
                         align: 'left',
                         formatter: function (params) {
@@ -900,8 +906,8 @@
             typeRatio2() {
                 this.backgroundColor3 = 0;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
-                myChart2.setOption({
 
+                myChart2.setOption({
                     tooltip: {
                         align: 'left',
                         formatter: function (params) {

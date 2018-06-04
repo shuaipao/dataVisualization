@@ -32,10 +32,22 @@
                 </el-button>
             </el-button-group>
 
+            <!--channelId-->
+            <el-form ref="form" label-width="60px"
+                style="display: inline-block;height: 40px;line-height:40px;margin:10px 1% 20px
+                2%;">
+                <el-form-item label="渠道：">
+                    <el-select v-model="channelId" @input="channelIdCheck" placeholder="channelId">
+                        <el-option v-for="item in channelIds" :key="item.value" :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
             <hr>
 
             <!--type-->
-            <el-button-group style="margin: 10px 0px;margin-left: 2%;width: 420px">
+            <el-button-group style="margin: 10px 0px;margin-left: 2%;width: 300px">
                 <el-button type="primary" :class="{active1:backgroundColor3 == 0}" @click="typeRatio">
                     批复比例
                 </el-button>
@@ -61,8 +73,8 @@
 
         data() {
             return {
-                thisDay: new Date(),
-                weeksNb: 10,
+                thisDay: new Date('2018-02-28'),
+                weeksNb: 12,
                 sectionIpt: true,
                 oldNew: ["All", "isNew", "isOld"],
                 isNew: "All",
@@ -72,10 +84,18 @@
                     "2018/4/21-2018/4/27", "2018/4/28-2018/5/4"],
                 dataArr: {},
                 backgroundColor3: 0,
+                channelId: '0',
+                channelIds: [],
             }
         },
 
         mounted() {
+            this.$ajax.get('/home', {
+                url: '/home',
+                baseURL: process.env.API_BASEURL,
+            }).then((res) => {
+                this.channelIds = res.data[0].channelId;
+            });
             this.getData();
         },
 
@@ -108,7 +128,8 @@
                     params: {
                         date: this.thisDay,
                         weeksNb: this.weeksNb,
-                        isNew: this.isNew
+                        isNew: this.isNew,
+                        channelId: this.channelId
                     }
 
                 }).then((res) => {
@@ -149,18 +170,20 @@
                     }
                     this.xaxis = dateArr;
                     this.dataArr = dataArr;
+                    // console.log(dataArr);
                     switch (this.backgroundColor3) {
                         case 0:
                             this.ART_Ratio();
                             break;
                         case 1:
                             this.ART_Number(this.seriesNb(0));
-                            break ;
+                            break;
                         case 2:
                             this.ART_Number(this.seriesNb(1));
-                            break ;
+                            break;
                         default:
-                    };
+                    }
+                    ;
 
                     // end = new Date().getTime();
                     // console.log("ART_Ratio" + (end - start) + "ms");
@@ -208,8 +231,8 @@
                     arr.push({
                         name: i,
                         type: 'bar',
-                        stack: '小嘻嘻嘻嘻嘻嘻嘻嘻寻',
                         smooth: false,
+                        stack: "堆叠",//折叠显示
                         data: dataArr[i]
                     })
                 }
@@ -223,18 +246,20 @@
 
                 function rt(data, t) {
                     var newArr = [];
-
                     for (var j = 0; j < data[t].length; j++) {
-                        var all = 0;
-                        for (var k in data) {
-                            all += data[k][j][0]
-                        }
-                        if (all != 0) {
-                            newArr[j] = (data[t][j][0] / all * 100).toFixed(2);
+                        //取得当前 产品t的批复数/批复总数 的比例;
+                        // var all = 0;
+                        // for (var k in data) {
+                        //     all += data[k][j][0]
+                        // }
+                        // console.log(data[k][j])
+                        if (data[t][j][1] != 0) {
+                            newArr[j] = (data[t][j][0] / data[t][j][1] * 100).toFixed(2);
                         } else {
                             newArr[j] = 0
                         }
                     }
+
                     return newArr;
                 }
 
@@ -252,9 +277,29 @@
             //批复分布数量/申请分部数量 chart
             ART_Number(series) {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
+                myChart.clear();
                 myChart.setOption({
+                    title: {
+                        text: 'dec比例',
+                        x: '0px',
+                        y: '65px',
+                        textStyle: {
+                            fontSize: 14,
+                            color: "#40cc90"
+                        }
+                    },
+
+                    grid: {
+                        left: "50px",
+                        top: '15%',
+                        containLabel: true
+                    },
 
                     tooltip: {
+                        trigger: 'axis',
+                        position: function (p) {   //其中p为当前鼠标的位置
+                            return [p[0] - 65, p[1] - 10];
+                        },
                         align: 'left',
                         formatter: function (params) {
                             var relVal = params[0].name;
@@ -265,9 +310,40 @@
                         }
                     },
 
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {
+                                show: true
+                            },
+                            dataView: {
+                                show: false,
+                                readOnly: false
+                            },
+                            magicType: {
+                                show: true,
+                                type: ['line', 'bar', 'stack', 'tiled']
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        },
+                        x: 100,
+                        y: 60
+                    },
+
+                    legend: {
+                        data: this.legend()
+                    },
+
+                    calculable: true,
+
                     xAxis: [{
                         type: 'category',
-                        boundaryGap: false,
+
                         data: this.xAxis(),
                         axisLabel: {
                             interval: 'auto',
@@ -279,7 +355,6 @@
                         type: 'value',
                         axisLabel: {
                             show: true,
-                            padding: [0, 40, 0, 0],
                             interval: 'auto',
                             formatter: '{value}',
                             textStyle: {
@@ -296,11 +371,12 @@
             //产品当前周批复比率(本周此产品申请数 / 本周所有申请数) chart
             ART_Ratio() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
+                myChart.clear();
                 myChart.setOption({
                     title: {
                         text: 'dec比例',
                         x: '0px',
-                        y: '25px',
+                        y: '65px',
                         textStyle: {
                             fontSize: 14,
                             color: "#40cc90"
@@ -360,7 +436,7 @@
                             }
                         },
                         x: 100,
-                        y: 20
+                        y: 60
                     },
 
                     calculable: true,
@@ -379,7 +455,6 @@
                         type: 'value',
                         axisLabel: {
                             show: true,
-                            padding: [0, 0, 0, 0],
                             interval: 'auto',
                             formatter: '{value}%',
                             textStyle: {
@@ -391,6 +466,13 @@
 
                     series: this.seriesRt()
                 });
+            },
+
+            //修改channelId
+            channelIdCheck() {
+                if (this.channelId) {
+                    this.getData()
+                }
             },
 
             //产品当前周批复比率

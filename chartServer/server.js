@@ -67,7 +67,7 @@ watcher.on('add', addFileListener)
         log.info('Error happened', error);
     })
     .on('ready', function () {
-        console.info('Initial scan complete. Ready for changes.');
+        console.info('文件监控已ready.');
         ready = true
     });
 
@@ -161,10 +161,8 @@ function dataBack(req, data) {
                         }
                     }
                 }
-
             }
         }
-
     }
 
 
@@ -233,14 +231,13 @@ app.get("/productsData", function (req, res) {
     } else {
         arrlength = jscoreImmediate.length / 2;
     }
-
     // var chartArr =
     for (var i in classfiyName) {
         backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
         backData["_" + i] = Array.apply(null, Array(arrlength)).map(() => 0);
         for (var j = 0; j < classfiyName[i].length; j++) {
-            if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
-                if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
+            if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
+                if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
                     if (req.query.sectionIpt == "true") {
                         for (var l = 0; l < arrlength; l++) {
                             if (classfiyName[i][j][classfiyName[i][j].scoreName] >= l * req.query.subSection && classfiyName[i][j][classfiyName[i][j].scoreName] < ((l + 1) * req.query.subSection)) {
@@ -256,6 +253,8 @@ app.get("/productsData", function (req, res) {
                     }
                 }
             }
+            // console.log(backData[i][j]);
+
         }
         var allNum = 0;
         backData["_" + i] = [];
@@ -291,7 +290,7 @@ function findSync(startPath) {
             let fPath = join(path, val);
             let stats = fs.statSync(fPath);
             if (stats.isDirectory()) finder(fPath);
-            if (stats.isFile() && fPath != "json\\table02\\template.json") result.push(val.split(".json")[0]);
+            if (stats.isFile() && fPath != "json\\table02\\template.json" && (fPath.split('.json')[1] == "")) result.push(val.split(".json")[0]);
         });
     }
 
@@ -352,20 +351,21 @@ function getFriday(date, n) {
     } else {
         d = new Date();
     }
-    var dd = d.getDay();
-    // var ddd = dd > 5 ? dd - 12 : dd - 5;
-    var ddd = (dd >= 5 ? dd - 5 : 2 + dd);
+    // var dd = d.getDay();
+    // // var ddd = dd > 5 ? dd - 12 : dd - 5;
+    // // var ddd = (dd >= 5 ? dd - 5 : 2 + dd);
+    // console.log(dd);
 
     var dateArrs = [];
-    var lastFriday = getBeforeDay(d, ddd);
     for (var j = 0; j < n; j++) {
         var dateArr = [];
         for (var i = 0; i < 7; i++) {
-            dateArr.push(getBeforeDay(lastFriday, i))
+            dateArr.push(getBeforeDay(d, i))
         }
-        lastFriday = getBeforeDay(dateArr[6], 1);
+        d = getBeforeDay(dateArr[6], 1);
         dateArrs[j] = dateArr;
     }
+    // console.log(dateArrs);
     return dateArrs
 }
 
@@ -373,8 +373,8 @@ function getFriday(date, n) {
 function dec(data) {
     var backData = {};
     var productNames = JSON.parse(fs.readFileSync('./json/filterData.json').toString())[0].productName;
+    // console.log(productNames);
     for (var i = 0; i < data.length; i++) {
-
         for (var l = 0; l < productNames.length; l++) {
             if (data[i].productName == productNames[l]) {
                 if (backData[data[i].productName]) {
@@ -386,6 +386,7 @@ function dec(data) {
             }
         }
     }
+    // console.log(backData);
     return backData;
 }
 
@@ -393,6 +394,7 @@ function dec(data) {
 app.get("/chartART", function (req, res) {
     // console.log(req.query.date);
     // var start = new Date().getTime();
+    // console.log(req.query.channelId);
     var data = fs.readFileSync('./json/dec.json').toString();
     var classfiyName = dec(JSON.parse(data));
     // console.log(classfiyName);
@@ -404,7 +406,7 @@ app.get("/chartART", function (req, res) {
         ratio[i] = {};
         for (var k = 0; k < classfiyName[i].length; k++) {
             for (var j = 0; j < weeks.length; j++) {
-                if (new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0]) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
+                if (((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][k].channelId)) && new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0]) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                     backData[i].all++;
                     if (classfiyName[i][k].decCode == "SUCCESS") {
@@ -415,6 +417,7 @@ app.get("/chartART", function (req, res) {
                 } else {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                 }
+
             }
         }
     }
