@@ -2,7 +2,7 @@
   {
     "applicationId": 1038696,
     "idNumber": 130898199009091230,
-    "applyDate": "2018-04-10",
+    "applyDate": "2018-04-11",
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
@@ -129,7 +129,7 @@
   {
     "applicationId": 1038696,
     "idNumber": 130898199009091230,
-    "applyDate": "2018-04-10",
+    "applyDate": "2018-04-11",
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
@@ -256,7 +256,7 @@
   {
     "applicationId": 1038696,
     "idNumber": 130898199009091230,
-    "applyDate": "2018-04-10",
+    "applyDate": "2018-04-11",
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
@@ -383,7 +383,7 @@
   {
     "applicationId": 1038696,
     "idNumber": 130898199009091230,
-    "applyDate": "2018-04-10",
+    "applyDate": "2018-04-11",
     "scoreName": "appscore",
     "productName": "小借",
     "channelId": "16",
@@ -689,7 +689,7 @@
 }, {
   "applicationId": 1038711,
   "idNumber": 130898199009091111,
-  "applyDate": "2018-05-10",
+  "applyDate": "2018-05-5",
   "scoreName": "jscore",
   "productName": "小借",
   "channelId": "16",
@@ -769,6 +769,8 @@
   "appscore": 605
 }
 , {
+  "applicationId": 1038711,
+  "idNumber": 130898199009091111,
   "applyDate": "2018-05-01",
   "scoreName": "appscore",
   "productName": "易借款_前期收费_C",

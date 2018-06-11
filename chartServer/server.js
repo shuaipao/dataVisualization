@@ -89,6 +89,26 @@ function getBeforeDay(d, daysNumber) {
     return s;
 }
 
+//scoreName:
+function scoreName({scoreName = "appscore"}, conditions) {
+    return typeof conditions.scoreName != "undefined" &&  conditions.scoreName == scoreName
+}
+
+//isNew:
+function isNew({isNew = 'All'}, conditions) {
+    return typeof conditions.isNew != "undefined" && conditions.isNew == 'All' || conditions.isNew == isNew
+}
+
+//productName:
+function productName({productName = '全部'}, conditions) {
+    return typeof conditions.productName != "undefined" && conditions.productName.indexOf('全部') + 1 || conditions.productName.indexOf(productName) + 1
+}
+
+//channelId:
+function channelId({channelId = "0"}, conditions) {
+    return typeof conditions.channelId != "undefined" && conditions.channelId.indexOf('0') + 1 || conditions.channelId.indexOf(channelId) + 1
+}
+
 //数据处理
 function dataBack(req, data) {
     var arrlength = 0;
@@ -119,56 +139,49 @@ function dataBack(req, data) {
 
     var lastWeekDays = getBeforeDay(req.query.applyDate, 6);
     var last30Days = getBeforeDay(req.query.applyDate, 29);
-    for (var i = 0; i < data.length; i++) {
-        if (((req.query.productName == "全部") || (req.query.productName == data[i].productName)) && ((req.query.channelId == "0") || (req.query.channelId == data[i].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == data[i].isNew)) && req.query.scoreName == data[i].scoreName) {
-            if (new Date(data[i].applyDate) <= new Date(req.query.applyDate) && new Date(data[i].applyDate) >= new Date(last30Days)) {
-                backData.last30Days.tableArr.push(data[i]);
-                if (new Date(data[i].applyDate) <= new Date(req.query.applyDate) && new Date(data[i].applyDate) >= new Date(lastWeekDays)) {
-                    if (data[i].applyDate == req.query.applyDate) {
-                        backData.today.tableArr.push(data[i]);
-                        for (var l = 0; l < backData.today.chartData.length; l++) {
-                            if (data[i][data[i].scoreName] >= l * req.query.subSection && data[i][data[i].scoreName] < ((l + 1) * req.query.subSection)) {
-                                backData.today.chartData[l]++;
-                            }
-                        }
-                    }
-                    backData.lastWeek.tableArr.push(data[i]);
+    var conditions = req.query;
 
-                    if (req.query.sectionIpt == "true") {
-                        for (var l = 0; l < arrlength; l++) {
-                            if (data[i][data[i].scoreName] >= l * req.query.subSection && data[i][data[i].scoreName] < (l + 1) * req.query.subSection) {
-                                backData.lastWeek.chartData[l]++;
-                            }
-                        }
-                    } else {
-                        for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
-                            if (data[i][data[i].scoreName] >= jscoreImmediate[l * 2] && data[i][data[i].scoreName] < jscoreImmediate[l * 2 + 1]) {
-                                backData.lastWeek.chartData[l]++;
-                            }
-                        }
-                    }
+    function secIpt(date, val) {
+        if (conditions.sectionIpt == "true") {
+            for (var l = 0; l < arrlength; l++) {
+                if (val[val.scoreName] >= l * conditions.subSection && val[val.scoreName] < ((l + 1) * conditions.subSection)) {
+                    date.chartData[l]++;
                 }
-                if (req.query.sectionIpt == "true") {
-                    for (var l = 0; l < arrlength; l++) {
-                        if (data[i][data[i].scoreName] >= l * req.query.subSection && data[i][data[i].scoreName] < ((l + 1) * req.query.subSection)) {
-                            backData.last30Days.chartData[l]++;
-                        }
-                    }
-                } else {
-                    for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
-                        if (data[i][data[i].scoreName] >= jscoreImmediate[l * 2] && data[i][data[i].scoreName] < jscoreImmediate[l * 2 + 1]) {
-                            backData.last30Days.chartData[l]++;
-                        }
-                    }
+            }
+        } else {
+            for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
+                if (val[val.scoreName] >= jscoreImmediate[l * 2] && val[val.scoreName] < jscoreImmediate[l * 2 + 1]) {
+                    date.chartData[l]++;
                 }
             }
         }
     }
 
+    data.filter((val) => {
+        //日期在前30天;
+        var month = new Date(val.applyDate) <= new Date(conditions.applyDate) && new Date(val.applyDate) >= new Date(last30Days);
+        return productName(val, conditions) && scoreName(val, conditions) && isNew(val, conditions) && channelId(val, conditions) && month;
+    }).filter(function (val) {
+        backData.last30Days.tableArr.push(val);
+        secIpt(backData.last30Days, val);
+        //上周
+        var week = new Date(val.applyDate) <= new Date && new Date(val.applyDate) >= new Date(lastWeekDays)
+        return week;
+    }).filter(val => {
+        backData.lastWeek.tableArr.push(val);
+        secIpt(backData.lastWeek, val);
+        //今天
+        let today = (val.applyDate == conditions.applyDate);
+        return today;
+    }).filter(val => {
+        backData.today.tableArr.push(val);
+        secIpt(backData.today, val);
+    });
 
     ratio(backData.today);
     ratio(backData.lastWeek);
     ratio(backData.last30Days);
+    // console.log(backData.today.tableArr);
     return backData;
 }
 
@@ -198,6 +211,7 @@ app.get("/home", function (req, res) {
 app.get("/appscore", function (req, res) {
     var data = fs.readFileSync('./json/applications.json').toString();
     data = JSON.parse(data);
+    // console.log(data);
     res.send(dataBack(req, data));
 
 });
@@ -231,13 +245,14 @@ app.get("/productsData", function (req, res) {
     } else {
         arrlength = jscoreImmediate.length / 2;
     }
-    // var chartArr =
     for (var i in classfiyName) {
         backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
         backData["_" + i] = Array.apply(null, Array(arrlength)).map(() => 0);
         for (var j = 0; j < classfiyName[i].length; j++) {
             if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
-                if (((req.query.productName == "全部") || (req.query.productName == classfiyName[i][j].productName)) && ((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][j].channelId)) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][j].isNew)) && req.query.scoreName == classfiyName[i][j].scoreName) {
+
+                if (productName(classfiyName[i][j], req.query) && channelId(classfiyName[i][j], req.query) && isNew(classfiyName[i][j], req.query) && scoreName(classfiyName[i][j], req.query)) {
+
                     if (req.query.sectionIpt == "true") {
                         for (var l = 0; l < arrlength; l++) {
                             if (classfiyName[i][j][classfiyName[i][j].scoreName] >= l * req.query.subSection && classfiyName[i][j][classfiyName[i][j].scoreName] < ((l + 1) * req.query.subSection)) {
@@ -261,13 +276,10 @@ app.get("/productsData", function (req, res) {
         for (var k = 0; k < backData[i].length; k++) {
             allNum += backData[i][k];
         }
-        // console.log(allNum);
         for (var j = 0; j < backData[i].length; j++) {
-
             backData["_" + i][j] = allNum ? (backData[i][j] / allNum * 100).toFixed(2) : "0.00";
         }
     }
-    // console.log(backData);
     res.send(backData);
 });
 
@@ -386,34 +398,34 @@ function dec(data) {
             }
         }
     }
-    // console.log(backData);
     return backData;
 }
 
 //chartART接口API
 app.get("/chartART", function (req, res) {
-    // console.log(req.query.date);
-    // var start = new Date().getTime();
-    // console.log(req.query.channelId);
     var data = fs.readFileSync('./json/dec.json').toString();
     var classfiyName = dec(JSON.parse(data));
-    // console.log(classfiyName);
     var weeks = getFriday(req.query.date, req.query.weeksNb);
     var backData = {};
     var ratio = {};
+    // data = JSON.parse(data);
+    // data.filter(val=> {
+    //     return channelId(val.channelId.toString(), req.query) && isNew(val.isNew, req.query)
+    // }).filter(val=> {
+    //     return  new Date(val.applyDate) >= new Date(weeks[j][6]) && new Date(val.applyDate) <= new Date(weeks[j][0])
+    // });
     for (var i in classfiyName) {
         backData[i] = {all: 0};
         ratio[i] = {};
         for (var k = 0; k < classfiyName[i].length; k++) {
             for (var j = 0; j < weeks.length; j++) {
-                if (((req.query.channelId == "0") || (req.query.channelId == classfiyName[i][k].channelId)) && new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0]) && ((req.query.isNew == "All") || (req.query.isNew == classfiyName[i][k].isNew))) {
+                if ((channelId(classfiyName[i][k], req.query)) && isNew(classfiyName[i][k], req.query) && new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])) {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                     backData[i].all++;
                     if (classfiyName[i][k].decCode == "SUCCESS") {
                         backData[i][weeks[j][6] + "-" + weeks[j][0]][0]++;
                     }
                     backData[i][weeks[j][6] + "-" + weeks[j][0]][1]++;
-
                 } else {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                 }
@@ -422,9 +434,6 @@ app.get("/chartART", function (req, res) {
         }
     }
     // console.log(backData);
-    // var end = new Date().getTime();
-    // console.log(end - start + "ms");
-
     res.send(backData);
 });
 

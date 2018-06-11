@@ -1,11 +1,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var chokidar = require('chokidar');
-const fs = require("fs");
-const path = require('path');
-const join = path.join;
-var app = express();
+var fs = require("fs");
+
+var chokidar = require('./module/chokidar').monitor;
+var filters = require('./module/filters').filters;
+var getBeforeDay = require('./module/getBeforeDays').filters;
+
+
 //cors(Cross-Origin Resource Sharing);
+var app = express();
 app.all("*", function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", true);
@@ -15,123 +18,107 @@ app.all("*", function (req, res, next) {
     next();
 });
 app.use(bodyParser.urlencoded({extended: false}));
+
+//文件监控
+chokidar();
+
 //监听端口
 app.listen(6781);
 
-var data = JSON.parse(fs.readFileSync('./json/table02/table02.json').toString());
+//获取数据
+function PathData(path) {
+    this.data = JSON.parse(fs.readFileSync(path).toString());
+}
 
-// console.log(data);
-// function dataDo(d) {
-//     let result = {
-//         keys: [],
-//     };
-//     for (var i = 0; i < d.length; i++) {
-//         Object.keys(d[i]).indexOf(item)
-//         for (var item in d[i]) {
-//             (result.keys.indexOf(item) == -1) && result.keys.push(item)
-//         }
-//     }
-//     console.log(result);
-// }
-//
-// var start = new Date().getTime();
-// dataDo(data);
-// var end = new Date().getTime();
-// console.log(end - start + "ms");
-// var k = [1, 2, 3, 4, 5, 6, 7];
-// var t = [1, 2, 3];
-// var [t1, t2, t3, ...res] = k;
-// console.log(res);
-//
-// var l = {
-//     name: "xiaowu",
-//     age: "24",
-//     a:1,
-//     b:2,
-//     c:3,
-//     d:4
-// };
-// var {a=3,c=2,age=1,t=10} = l;
-// console.log(a,c,age,t);
-// var y = (new Date()).getYear(2018);
-// var y2 = (new Date()).getFullYear();
-// console.log(y, y2);
-//
-// var arr = {
-//     a:1,
-//     b:2,
-//     c:3,
-//     d:4,
-// };
-// let map = new Map(arr);
-// // 遍历key值
-// for (let key of map.keys()) {
-//     console.log(key);
-// }
-// // 遍历value值
-// for (let value of map.values()) {
-//     console.log(value);
-// }
-// // 遍历key和value值
-// for (let item of map.entries()) {
-//     console.log(item[0], item[1]);
-// }
-// isNew productName scoreName channelId score区间 date区间
-function filters(condition, data) {
-    var newData = [];
+//home接口(获取filters列表)
+app.get("/home", function (req, res) {
+    var homeData = fs.readFileSync('./json/filterData.json').toString();
+    homeData = JSON.parse(homeData);
+    console.log(homeData);
+    res.send(homeData);
+});
 
-    var conditions = {
-        isNew: req.query.isNew,
-        productName: req.query.productName,
-        scoreName: req.query.scoreName,
-        channelId: req.query.channelId
+
+//applications接口(返回数据);
+app.get("/applications", function (req, res) {
+
+    var Date = new PathData('./json/applications.json');
+
+    //filters规则;
+    var names = ['scoreName', 'isNew', 'channelId', 'productName'];
+
+    //分数段区间;
+    var jscoreImmediate = [0, 50, 50, 86, 86, 129, 129, 150, 150, 200, 200, 241, 241, 300, 300, 1000];
+
+    //区间数
+    var arrLength = 0;
+
+    //分区间数
+    if (conditions.sectionIpt == "true") {
+        arrlength = Math.ceil(req.query.maxScore / req.query.subSection);
+    } else {
+        arrlength = jscoreImmediate.length / 2;
+    }
+
+    //初始数组值为0
+    var chartArr = [].fill(0, 0, arrLength - 1);
+
+    //返回数据格式
+    var backData = {
+        today: {
+            tableArr: [],
+            chartData: JSON.parse(JSON.stringify(chartArr)),
+            ratioData: []
+        },
+        lastWeek: {
+            tableArr: [],
+            chartData: JSON.parse(JSON.stringify(chartArr)),
+            ratioData: []
+        },
+        last30Days: {
+            tableArr: [],
+            chartData: JSON.parse(JSON.stringify(chartArr)),
+            ratioData: []
+        },
     };
-    for (let i in data) {
-        if (data[i].condition) {
-            newData
+
+    //29天前的日期,7天前的日期
+    var lastWeekDays = getBeforeDay(req.query.applyDate, 6);
+    var last30Days = getBeforeDay(req.query.applyDate, 29);
+
+    //量
+    function secIpt(date, val) {
+        if (req.query.sectionIpt == "true") {
+            for (var l = 0; l < arrlength; l++) {
+                if (val[val.scoreName] >= l * req.query.subSection && val[val.scoreName] < ((l + 1) * req.query.subSection)) {
+                    date.chartData[l]++;
+                }
+            }
+        } else {
+            for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
+                if (val[val.scoreName] >= jscoreImmediate[l * 2] && val[val.scoreName] < jscoreImmediate[l * 2 + 1]) {
+                    date.chartData[l]++;
+                }
+            }
         }
     }
-}
 
-
-//isNew:
-function isNew({isNew = 0}) {
-    if (conditions.isNew == 0 || conditions.isNew == isNew) {
-        return true;
-    } else {
-        return false
-    }
-}
-
-//productName:
-function productName({productName = '全部'}) {
-    if (conditions.productName == "全部" || conditions.productName == productName) {
-        return true;
-    } else {
-        return false
-    }
-}
-
-//scoreName:
-function scoreName({scoreName = "appscore"}) {
-    if (conditions.scoreName == "全部" || conditions.scoreName == scoreName) {
-        return true;
-    } else {
-        return false
-    }
-}
-
-//channelId:
-function channelId(channelId = "0") {
-    if (conditions.channelId == "0" || conditions.channelId == channelId) {
-        return true;
-    } else {
-        return false
-    }
-}
-
-Array.prototype
-
-
-
-
+    //过滤
+    filters(applications, name, req.query).filter(val => {
+        return new Date(val.applyDate) <= new Date(req.query.applyDate) && new Date(val.applyDate) >= new Date(last30Days);
+    }).filter(val => {
+        //29月前的数据;
+        backData.last30Days.tableArr.push(val);
+        secIpt(backData.last30Days, val);
+        return new Date(val.applyDate) <= new Date && new Date(val.applyDate) >= new Date(lastWeekDays);
+    }).filter(val => {
+        //6天前的数据
+        backData.lastWeek.tableArr.push(val);
+        secIpt(backData.lastWeek, val);
+        return val.applyDate == req.query.applyDate;
+    }).filter(val => {
+        //今天的数据
+        backData.today.tableArr.push(val);
+        secIpt(backData.today, val);
+    })
+});

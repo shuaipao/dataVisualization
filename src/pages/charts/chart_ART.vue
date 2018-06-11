@@ -34,10 +34,10 @@
 
             <!--channelId-->
             <el-form ref="form" label-width="60px"
-                style="display: inline-block;height: 40px;line-height:40px;margin:10px 1% 20px
+                style="display: inline-block;line-height:40px;margin:10px 1% 20px
                 2%;">
                 <el-form-item label="渠道：">
-                    <el-select v-model="channelId" @input="channelIdCheck" placeholder="channelId">
+                    <el-select multiple v-model="channelId" @input="channelIdCheck" placeholder="channelId">
                         <el-option v-for="item in channelIds" :key="item.value" :label="item.label"
                             :value="item.value">
                         </el-option>
@@ -73,7 +73,7 @@
 
         data() {
             return {
-                thisDay: new Date('2018-02-28'),
+                thisDay: new Date(),
                 weeksNb: 12,
                 sectionIpt: true,
                 oldNew: ["All", "isNew", "isOld"],
@@ -84,7 +84,7 @@
                     "2018/4/21-2018/4/27", "2018/4/28-2018/5/4"],
                 dataArr: {},
                 backgroundColor3: 0,
-                channelId: '0',
+                channelId: ["0"],
                 channelIds: [],
             }
         },
@@ -121,6 +121,7 @@
 
             //获取后台数据
             getData() {
+                console.log(this.channelId);
                 var start = new Date().getTime();
                 this.$ajax.get('/chartART', {
                     url: '/chartART',

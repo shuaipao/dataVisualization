@@ -41,9 +41,9 @@
 
                 <!--productName-->
                 <el-form ref="form" label-width="60px"
-                    style="display: inline-block;height: 40px;line-height:40px;margin:10px 1% 0px 2%;">
+                    style="display: inline-block;line-height:40px;margin:10px 1% 0px 2%;">
                     <el-form-item label="产品：">
-                        <el-select v-model="productName" @input="productNameCheck" placeholder="proctName"
+                        <el-select multiple v-model="productName" @input="productNameCheck"
                             style="">
                             <el-option v-for="item in productNames" :key="item" :label="item" :value="item">
                             </el-option>
@@ -53,10 +53,10 @@
 
                 <!--channelId-->
                 <el-form ref="form" label-width="60px"
-                    style="display: inline-block;height: 40px;line-height:40px;margin:10px 1% 0px
+                    style="display: inline-block;line-height:40px;margin:10px 1% 0px
                 2%;">
                     <el-form-item label="渠道：">
-                        <el-select v-model="channelId" @input="channelIdCheck" placeholder="channelId">
+                        <el-select multiple v-model="channelId" @input="channelIdCheck">
                             <el-option v-for="item in channelIds" :key="item.value" :label="item.label"
                                 :value="item.value">
                             </el-option>
@@ -181,8 +181,8 @@
 </template>
 
 <script>
-    import Btns from "../../components/md"
-    import Enum from "../../components/enum"
+    // import Btns from "../../components/md"
+    // import Enum from "../../components/enum"
 
     export default {
         name: "chart",
@@ -225,8 +225,8 @@
 
                 subSection: 100,
                 maxScore: 1000,
-                productName: '全部',
-                channelId: '0',
+                productName: ['全部'],
+                channelId: ['0'],
 
                 pickerOptions: {
                     shortcuts: [{
@@ -358,7 +358,7 @@
                 this.backgroundColor3 = 1;
                 if (this.ischartDatas == true) {
                     let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
-                    window.onresize =  myChart.resize();
+                    window.onresize = myChart.resize();
 
                     myChart.setOption({
                         tooltip: {
@@ -827,6 +827,16 @@
 
             //ajax请求数据
             getDatas() {
+                console.log({
+                    applyDate: this.thisDay.toString(),
+                    maxScore: this.maxScore,
+                    subSection: this.subSection,
+                    channelId: this.channelId,
+                    productName: this.productName,
+                    isNew: this.isNew,
+                    scoreName: this.scoreName,
+                    sectionIpt: this.sectionIpt
+                });
                 this.$ajax.get('/' + this.scoreName,
                     {
                         url: '/' + this.scoreName,
@@ -857,9 +867,9 @@
                     this.tableData = tableData;
                     this.tabledataobj = this.tableData.day;
                 }).then(() => {
-                    if(this.backgroundColor3 == 0){
+                    if (this.backgroundColor3 == 0) {
                         this.typeRatio();
-                    }else if(this.backgroundColor3 == 1) {
+                    } else if (this.backgroundColor3 == 1) {
                         this.typeNumber();
                     }
 
@@ -946,7 +956,7 @@
 
                 }).then(() => {
                     this.drawLine2();
-                    if(this.backgroundColor3 == 0){
+                    if (this.backgroundColor3 == 0) {
                         this.typeRatio2();
                     }
 
