@@ -34,10 +34,10 @@
             return {
                 tableData: [],
                 subTitle: [],
-
+                tableName: '',
             }
         },
-        props: ['jsonName'],
+        props: ['jsonName',],
         watch: {
             jsonName(curVal, oldVal) {
                 this.getData(curVal);
@@ -47,8 +47,8 @@
             if (this.jsonName) {
                 this.getData(this.jsonName);
             } else {
-                this.$ajax.get('/template', {
-                    url: '/template',
+                this.$ajax.get('/firstTable', {
+                    url: '/firstTable',
                     baseURL: process.env.API_BASEURL,
                 }).then((res) => {
                     this.tableData = res.data.table.tableData;

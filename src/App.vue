@@ -68,8 +68,8 @@
         },
         mounted() {
             if (this.tableNames) {
-                this.$ajax.get('/tableName02', {
-                    url: '/tableName02',
+                this.$ajax.get('/tableNames', {
+                    url: '/tableNames',
                     baseURL: process.env.API_BASEURL,
                 }).then((res) => {
                     this.tableNames = res.data;

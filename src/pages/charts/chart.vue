@@ -43,7 +43,7 @@
                 <el-form ref="form" label-width="60px"
                     style="display: inline-block;line-height:40px;margin:10px 1% 0px 2%;">
                     <el-form-item label="产品：">
-                        <el-select multiple v-model="productName" @input="productNameCheck"
+                        <el-select multiple v-model="productName" @input="productNameCheck()"
                             style="">
                             <el-option v-for="item in productNames" :key="item" :label="item" :value="item">
                             </el-option>
@@ -261,8 +261,8 @@
                 seriesRt: []
 
             }
-        }
-        ,
+        },
+
         mounted() {
             this.$ajax.get('/home', {
                 url: '/home',
@@ -275,8 +275,8 @@
             this.drawLine();
             this.drawLine2();
             this.getProductsData()
-        }
-        ,
+        },
+
         methods: {
             //echarts初始化
             drawLine() {
@@ -806,11 +806,17 @@
 
             //验证productName
             productNameCheck() {
-                if (this.productName) {
-                    if (this.thisDay) {
-                        this.getDatas()
-                    }
+                if (this.productName.length == 0) {
+                    this.productName.push('全部');
+                }
+                ;
 
+                if (this.productName.indexOf('全部') > -1 && this.productName.length > 1) {
+                    this.productName.splice(this.productName.indexOf('全部'), 1);
+                }
+
+                if (this.thisDay) {
+                    this.getDatas()
                 }
                 this.getProductsData()
             },
@@ -821,23 +827,15 @@
                     if (this.thisDay) {
                         this.getDatas()
                     }
+                } else {
+                    this.channelId = [];
                 }
                 this.getProductsData()
             },
 
             //ajax请求数据
             getDatas() {
-                console.log({
-                    applyDate: this.thisDay.toString(),
-                    maxScore: this.maxScore,
-                    subSection: this.subSection,
-                    channelId: this.channelId,
-                    productName: this.productName,
-                    isNew: this.isNew,
-                    scoreName: this.scoreName,
-                    sectionIpt: this.sectionIpt
-                });
-                this.$ajax.get('/' + this.scoreName,
+                this.$ajax.get('/applications',
                     {
                         url: '/' + this.scoreName,
                         baseURL: process.env.API_BASEURL,
@@ -933,24 +931,20 @@
                     this.chart2Names = [];
                     this.seriesNb = [];
                     this.seriesRt = [];
-
                     for (var i in res.data) {
-                        // console.log(res.data);
-                        if (i.indexOf('_') != 0) {
-                            this.chart2Names.push(i);
-                            this.seriesNb.push({
-                                name: i,
-                                type: 'line',
-                                smooth: false,
-                                data: res.data[i]
-                            });
-                            this.seriesRt.push({
-                                name: i,
-                                type: 'line',
-                                smooth: false,
-                                data: res.data["_" + i]
-                            })
-                        }
+                        this.chart2Names.push(i);
+                        this.seriesNb.push({
+                            name: i,
+                            type: 'line',
+                            smooth: false,
+                            data: res.data[i].chartData
+                        });
+                        this.seriesRt.push({
+                            name: i,
+                            type: 'line',
+                            smooth: false,
+                            data: res.data[i].ratioData
+                        })
 
                     }
 
@@ -962,10 +956,7 @@
 
                 });
             },
-
-
         }
-
     }
 </script>
 

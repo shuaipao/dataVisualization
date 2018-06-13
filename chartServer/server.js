@@ -91,7 +91,7 @@ function getBeforeDay(d, daysNumber) {
 
 //scoreName:
 function scoreName({scoreName = "appscore"}, conditions) {
-    return typeof conditions.scoreName != "undefined" &&  conditions.scoreName == scoreName
+    return typeof conditions.scoreName != "undefined" && conditions.scoreName == scoreName
 }
 
 //isNew:
@@ -101,12 +101,12 @@ function isNew({isNew = 'All'}, conditions) {
 
 //productName:
 function productName({productName = '全部'}, conditions) {
-    return typeof conditions.productName != "undefined" && conditions.productName.indexOf('全部') + 1 || conditions.productName.indexOf(productName) + 1
+    return (typeof conditions.productName) != "undefined" && (conditions.productName.indexOf('全部') + 1 || conditions.productName.indexOf(productName.toString()) + 1)
 }
 
 //channelId:
 function channelId({channelId = "0"}, conditions) {
-    return typeof conditions.channelId != "undefined" && conditions.channelId.indexOf('0') + 1 || conditions.channelId.indexOf(channelId) + 1
+    return typeof conditions.channelId != "undefined" && (conditions.channelId.indexOf('0') + 1 || conditions.channelId.indexOf(channelId.toString()) + 1)
 }
 
 //数据处理
@@ -355,7 +355,7 @@ table02Api(fileNames);
 //////////////////////////////////////////////////////////////////////////////////////////////
 //dec.json
 
-//从前面n周周五到date前一个周五的日期数组函数
+//前n周(最后一周:[第6天前,今天]);
 function getFriday(date, n) {
     var d;
     if (date) {
@@ -429,11 +429,10 @@ app.get("/chartART", function (req, res) {
                 } else {
                     backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
                 }
-
             }
         }
     }
-    // console.log(backData);
+    console.log(backData);
     res.send(backData);
 });
 
