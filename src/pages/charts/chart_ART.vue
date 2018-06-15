@@ -82,7 +82,7 @@
                 xaxis: ["2018/3/17-2018/3/23",
                     "2018/3/24-2018/3/30", "2018/3/31-2018/4/6", "2018/4/7-2018/4/13", "2018/4/14-2018/4/20",
                     "2018/4/21-2018/4/27", "2018/4/28-2018/5/4"],
-                dataArr: {},
+                dataArr: [],
                 backgroundColor3: 0,
                 channelId: ["0"],
                 channelIds: [],
@@ -122,7 +122,7 @@
             //获取后台数据
             getData() {
                 console.log(this.channelId);
-                var start = new Date().getTime();
+                let start = new Date().getTime();
                 this.$ajax.get('/chartART', {
                     url: '/chartART',
                     baseURL: process.env.API_BASEURL,
@@ -134,70 +134,32 @@
                     }
 
                 }).then((res) => {
-                    // var end = new Date().getTime();
-                    // console.log("ajax" + (end - start) + "ms");
-                    // start = end;
-                    var dataArr = {};
-                    var dateArr = [];
-                    for (var i in res.data) {
-                        dataArr[i] = [];
-                        for (var j in res.data[i]) {
-                            if (j != 'all') {
-                                dateArr.push(j);
-                                dataArr[i].push({[j]: res.data[i][j]});
-                            }
-                        }
-                        dataArr[i].sort(function (a, b) {
-                            var c, d;
-                            for (var s in a) {
-                                c = s;
-                            }
-                            for (var t in b) {
-                                d = t;
-                            }
-                            return c > t ? 1 : -1;
-                        });
 
-                        for (var s = 0; s < dataArr[i].length; s++) {
-                            for (var u in dataArr[i][s]) {
-                                dataArr[i][s] = dataArr[i][s][u];
-                            }
-                        }
-                    }
-                    dateArr = this.uniq(dateArr);
-                    for (var i = 0; i < dateArr.length; i++) {
-                        dateArr[i] = dateArr[i].split('-')[0] + "/" + dateArr[i].split('-')[1] + "/" + dateArr[i].split('-')[2] + "-" + dateArr[i].split('-')[3]
-                            + "/" + dateArr[i].split('-')[4] + "/" + dateArr[i].split('-')[5];
-                    }
-                    this.xaxis = dateArr;
-                    this.dataArr = dataArr;
-                    // console.log(dataArr);
+                    this.xaxis = res.data.dateArr;
+                    this.dataArr = res.data.backData;
+                    console.log(res.data);
                     switch (this.backgroundColor3) {
                         case 0:
                             this.ART_Ratio();
                             break;
                         case 1:
-                            this.ART_Number(this.seriesNb(0));
+                            this.ART_Number(this.seriesNb("passNo"));
                             break;
                         case 2:
-                            this.ART_Number(this.seriesNb(1));
+                            this.ART_Number(this.seriesNb("applyNo"));
                             break;
                         default:
                     }
                     ;
-
-                    // end = new Date().getTime();
-                    // console.log("ART_Ratio" + (end - start) + "ms");
-                    // start = end;
                 });
             },
 
             //去重
             uniq(Array) {
                 Array = Array.sort();
-                var Ary = JSON.parse(JSON.stringify(Array));
-                var newArr = [];
-                for (var i = 0; i < Ary.length; i++) {
+                let Ary = JSON.parse(JSON.stringify(Array));
+                let newArr = [];
+                for (let i = 0; i < Ary.length; i++) {
                     if (newArr.indexOf(Ary[i]) == -1) {
                         newArr.push(Ary[i]);
                     }
@@ -207,14 +169,14 @@
 
             //x轴坐标(["2018/3/17-2018/3/23",...] 周5-周5的日期区间段)
             xAxis() {
-                var arr = this.xaxis;
+                let arr = this.xaxis;
                 return arr;
             },
 
             //产品名( [易借款 , 易借款_前期收费产品, ...] )
             legend() {
-                var arr = [];
-                for (var i in this.dataArr) {
+                let arr = [];
+                for (let i in this.dataArr) {
                     arr.push(i)
                 }
                 return arr;
@@ -222,54 +184,28 @@
 
             //批复分布/申请分部 chart图数据
             seriesNb(c) {
-                var arr = [];
-                var dataArr = [];
-                for (var i in this.dataArr) {
-                    dataArr[i] = [];
-                    for (var j = 0; j < this.dataArr[i].length; j++) {
-                        dataArr[i].push(this.dataArr[i][j][c]);
-                    }
-                    arr.push({
+                let sarr = [];
+                for (let i in this.dataArr) {
+                    sarr.push({
                         name: i,
                         type: 'bar',
                         smooth: false,
                         stack: "堆叠",//折叠显示
-                        data: dataArr[i]
+                        data: this.dataArr[i][c]
                     })
                 }
-                return arr;
+                return sarr;
             },
 
             //批复比率 chart图数据
             seriesRt() {
-                var sarr = [];
-                var all = 0;
-
-                function rt(data, t) {
-                    var newArr = [];
-                    for (var j = 0; j < data[t].length; j++) {
-                        //取得当前 产品t的批复数/批复总数 的比例;
-                        // var all = 0;
-                        // for (var k in data) {
-                        //     all += data[k][j][0]
-                        // }
-                        // console.log(data[k][j])
-                        if (data[t][j][1] != 0) {
-                            newArr[j] = (data[t][j][0] / data[t][j][1] * 100).toFixed(2);
-                        } else {
-                            newArr[j] = 0
-                        }
-                    }
-
-                    return newArr;
-                }
-
-                for (var i in this.dataArr) {
+                let sarr = [];
+                for (let i in this.dataArr) {
                     sarr.push({
                         name: i,
                         type: 'line',
                         smooth: false,
-                        data: rt(this.dataArr, i)
+                        data: this.dataArr[i].applyRt
                     })
                 }
                 return sarr;
@@ -303,8 +239,8 @@
                         },
                         align: 'left',
                         formatter: function (params) {
-                            var relVal = params[0].name;
-                            for (var i = 0, l = params.length; i < l; i++) {
+                            let relVal = params[0].name;
+                            for (let i = 0, l = params.length; i < l; i++) {
                                 relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value + "人";
                             }
                             return relVal;
@@ -373,6 +309,9 @@
             ART_Ratio() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
                 myChart.clear();
+                window.onresize = function () {
+                    myChart.resize();
+                };
                 myChart.setOption({
                     title: {
                         text: 'dec比例',
@@ -391,8 +330,8 @@
                         },
                         align: 'left',
                         formatter: function (params) {
-                            var relVal = params[0].name;
-                            for (var i = 0, l = params.length; i < l; i++) {
+                            let relVal = params[0].name;
+                            for (let i = 0, l = params.length; i < l; i++) {
                                 if (params[i].value != "NaN") {
                                     relVal +=
                                         '<br/>' + params[i].seriesName + ' : ' + params[i].value + "%";
@@ -485,13 +424,13 @@
             //批复分布
             typeReply() {
                 this.backgroundColor3 = 1;
-                this.ART_Number(this.seriesNb(0))
+                this.ART_Number(this.seriesNb("passNo"))
             },
 
             //申请分布
             typeApply() {
                 this.backgroundColor3 = 2;
-                this.ART_Number(this.seriesNb(1))
+                this.ART_Number(this.seriesNb('applyNo'))
             },
 
             //修改日期

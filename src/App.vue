@@ -48,6 +48,13 @@
                     dec图
                 </a>
             </el-menu-item>
+
+            <!--dec周对比图-->
+            <el-menu-item index="7" style="max-width:150px;padding: 0px 10px;" @click="">
+                <a href="#embedding" style="width: 100%;height:100%;text-decoration: none;display: block;">
+                    Embedding selector
+                </a>
+            </el-menu-item>
         </el-menu>
         <keep-alive>
             <router-view :jsonName="key"/>

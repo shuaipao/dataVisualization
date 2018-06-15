@@ -4,6 +4,7 @@ import Chart from '@/pages/charts/chart'
 import Table from '@/pages/charts/table'
 import ChartART from '@/pages/charts/chart_ART'
 import Test from '@/pages/charts/test'
+import Embedding from '@/pages/charts/embedding'
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
             path: "/test",
             name: "test",
             component: Test,
+        },
+        {
+            path: "/embedding",
+            name: "embedding",
+            component: Embedding,
         }
     ],
 

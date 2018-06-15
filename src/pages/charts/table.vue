@@ -2,7 +2,6 @@
     <div id="table02">
 
         <el-card class="box-card" style="text-align: left;margin-bottom: 20px;text-align: center;">
-
             <el-row>
                 <el-col :span="24">
                     <div>
@@ -65,6 +64,7 @@
                         url: '/' + jsonName,
                         baseURL: process.env.API_BASEURL,
                     }).then((res) => {
+                        console.log(res.data);
                         this.tableData = res.data.tableData;
                         this.subTitle = res.data.subtitle;
                         this.$store.state.subTitle[jsonName] = this.subTitle;

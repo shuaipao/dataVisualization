@@ -1,11 +1,19 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var chokidar = require('chokidar');
-const fs = require("fs");
-const path = require('path');
-const join = path.join;
-var app = express();
-//cors(Cross-Origin Resource Sharing);
+//  node_modules
+let express = require("express");
+let bodyParser = require("body-parser");
+let fs = require("fs");
+let path = require("path");
+let join = path.join;
+
+//  module
+let chokidar = require('./module/chokidar').monitor;
+let filters = require('./module/filters').filters;
+let getBeforeDay = require('./module/getBeforeDays').getBeforeDay;
+let getBeforeNWeeks = require('./module/getBeforeDays').getBeforeNWeeks;
+
+let app = express();
+
+//  cors(Cross-Origin Resource Sharing);
 app.all("*", function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", true);
@@ -15,290 +23,183 @@ app.all("*", function (req, res, next) {
     next();
 });
 app.use(bodyParser.urlencoded({extended: false}));
-//监听端口
+
+//  文件监控
+chokidar(findSync, './json');
+
+//  监听端口
 app.listen(6780);
-//文件夹监控chokidar
-var watcher = null;
-var ready = false;
-var watchPath = './json/table02';
 
-// 文件新增时
-function addFileListener() {
-    if (ready) {
-        fileNames = findSync('./json/table02');
-        table02Api(fileNames);
+//  获取JSON数据
+class PathData {
+    constructor(path) {
+        this.data = JSON.parse(fs.readFileSync(path).toString() ? fs.readFileSync(path).toString() : '[]');
     }
 }
 
-function addDirecotryListener() {
-    if (ready) {
-        fileNames = findSync('./json/table02');
-        table02Api(fileNames);
-    }
-}
-
-// 文件内容改变时
-function fileChangeListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-// 删除文件时，需要把文件里所有的用例删掉
-function fileRemovedListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-// 删除目录时
-function directoryRemovedListener() {
-    fileNames = findSync('./json/table02');
-    table02Api(fileNames);
-}
-
-if (!watcher) {
-    watcher = chokidar.watch(watchPath);
-}
-watcher.on('add', addFileListener)
-    .on('addDir', addDirecotryListener)
-    .on('change', fileChangeListener)
-    .on('unlink', fileRemovedListener)
-    .on('unlinkDir', directoryRemovedListener)
-    .on('error', function (error) {
-        log.info('Error happened', error);
-    })
-    .on('ready', function () {
-        console.info('文件监控已ready.');
-        ready = true
-    });
-
+//  chart
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-//chart
-//分数段区间;
-var jscoreImmediate = [0, 50, 50, 86, 86, 129, 129, 150, 150, 200, 200, 241, 241, 300, 300, 1000];
 
-//获取日期d的前daysNumber天
-function getBeforeDay(d, daysNumber) {
-    d = new Date(d);
-    d = +d - 1000 * 60 * 60 * 24 * daysNumber;
-    d = new Date(d);
-    var year = d.getFullYear();
-    var mon = d.getMonth() + 1;
-    var day = d.getDate();
-    var s = year + "-" + (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
-    return s;
-}
 
-//scoreName:
-function scoreName({scoreName = "appscore"}, conditions) {
-    return typeof conditions.scoreName != "undefined" && conditions.scoreName == scoreName
-}
+//  home接口(获取filters数据项)
+app.get("/home", (req, res) => {
+    let homeData = new PathData('./json/filterData.json').data;
+    res.send(homeData);
+});
 
-//isNew:
-function isNew({isNew = 'All'}, conditions) {
-    return typeof conditions.isNew != "undefined" && conditions.isNew == 'All' || conditions.isNew == isNew
-}
+//  前端部分filter处理
+function applicationsData(req) {
+    let pathData = new PathData('./json/applications.json').data;
 
-//productName:
-function productName({productName = '全部'}, conditions) {
-    return (typeof conditions.productName) != "undefined" && (conditions.productName.indexOf('全部') + 1 || conditions.productName.indexOf(productName.toString()) + 1)
-}
+    //filters规则;
+    let names = ['scoreName', 'isNew', 'channelId', 'productName'];
 
-//channelId:
-function channelId({channelId = "0"}, conditions) {
-    return typeof conditions.channelId != "undefined" && (conditions.channelId.indexOf('0') + 1 || conditions.channelId.indexOf(channelId.toString()) + 1)
-}
+    //分数段区间;
+    let jscoreImmediate = [0, 50, 50, 86, 86, 129, 129, 150, 150, 200, 200, 241, 241, 300, 300, 1000];
 
-//数据处理
-function dataBack(req, data) {
-    var arrlength = 0;
+    //区间数
+    let arrLength = 0;
+
+    //分区间数
     if (req.query.sectionIpt == "true") {
-        arrlength = Math.ceil(req.query.maxScore / req.query.subSection);
+        arrLength = Math.ceil(req.query.maxScore / req.query.subSection);
     } else {
-        arrlength = jscoreImmediate.length / 2;
+        arrLength = jscoreImmediate.length / 2;
     }
-    var chartArr = Array.apply(null, Array(arrlength)).map(() => 0);
 
-    var backData = {
-        today: {
-            tableArr: [],
-            chartData: JSON.parse(JSON.stringify(chartArr)),
-            ratioData: []
-        },
-        lastWeek: {
-            tableArr: [],
-            chartData: JSON.parse(JSON.stringify(chartArr)),
-            ratioData: []
-        },
-        last30Days: {
-            tableArr: [],
-            chartData: JSON.parse(JSON.stringify(chartArr)),
-            ratioData: []
-        },
-    };
+    //初始数组值为0
+    let chartArr = new Array(arrLength).fill(0, 0, arrLength);
 
-    var lastWeekDays = getBeforeDay(req.query.applyDate, 6);
-    var last30Days = getBeforeDay(req.query.applyDate, 29);
-    var conditions = req.query;
-
-    function secIpt(date, val) {
-        if (conditions.sectionIpt == "true") {
-            for (var l = 0; l < arrlength; l++) {
-                if (val[val.scoreName] >= l * conditions.subSection && val[val.scoreName] < ((l + 1) * conditions.subSection)) {
-                    date.chartData[l]++;
+    return {
+        chartArr: chartArr, pathData: pathData, names: names,
+        //分数段内数据
+        secIpt(data, val) {
+            if (req.query.sectionIpt == "true") {
+                for (let l = 0; l < arrLength; l++) {
+                    if (val[val.scoreName] >= l * req.query.subSection && val[val.scoreName] < ((l + 1) * req.query.subSection)) {
+                        data.chartData[l]++;
+                    }
+                }
+            } else {
+                for (let l = 0; l < (jscoreImmediate.length / 2); l++) {
+                    if (val[val.scoreName] >= jscoreImmediate[l * 2] && val[val.scoreName] < jscoreImmediate[l * 2 + 1]) {
+                        data.chartData[l]++;
+                    }
                 }
             }
-        } else {
-            for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
-                if (val[val.scoreName] >= jscoreImmediate[l * 2] && val[val.scoreName] < jscoreImmediate[l * 2 + 1]) {
-                    date.chartData[l]++;
-                }
+        },
+
+        //计算比例
+        ratio(dataObj) {
+            let allNum = 0;
+            for (let k = 0; k < dataObj.chartData.length; k++) {
+                allNum += dataObj.chartData[k];
+            }
+            for (let j = 0; j < dataObj.chartData.length; j++) {
+                dataObj.ratioData[j] = allNum == 0 ? 0 : (dataObj.chartData[j] / allNum * 100).toFixed(2);
             }
         }
     }
+}
 
-    data.filter((val) => {
-        //日期在前30天;
-        var month = new Date(val.applyDate) <= new Date(conditions.applyDate) && new Date(val.applyDate) >= new Date(last30Days);
-        return productName(val, conditions) && scoreName(val, conditions) && isNew(val, conditions) && channelId(val, conditions) && month;
-    }).filter(function (val) {
+//  applications接口
+app.get("/applications", (req, res) => {
+
+    let {chartArr, pathData, names, secIpt, ratio} = applicationsData(req);
+
+    class BackData {
+        constructor(arrTemplate) {
+            this.tableArr = [];
+            this.chartData = arrTemplate.concat();
+            this.ratioData = []
+        }
+    }
+
+    //返回数据格式
+    let backData = {
+        today: new BackData(chartArr),
+        lastWeek: new BackData(chartArr),
+        last30Days: new BackData(chartArr),
+    };
+
+    //29天前的日期,7天前的日期
+    let lastWeekDays = getBeforeDay(req.query.applyDate, 6);
+    let last30Days = getBeforeDay(req.query.applyDate, 29);
+
+    //过滤
+    filters(pathData, names, req.query).filter(val => {
+        return new Date(val.applyDate) <= new Date(req.query.applyDate) && new Date(val.applyDate) >= new Date(last30Days);
+    }).filter(val => {
+        //29月前的数据;
         backData.last30Days.tableArr.push(val);
         secIpt(backData.last30Days, val);
-        //上周
-        var week = new Date(val.applyDate) <= new Date && new Date(val.applyDate) >= new Date(lastWeekDays)
-        return week;
+        return new Date(val.applyDate) <= new Date && new Date(val.applyDate) >= new Date(lastWeekDays);
     }).filter(val => {
+        //6天前的数据
         backData.lastWeek.tableArr.push(val);
         secIpt(backData.lastWeek, val);
-        //今天
-        let today = (val.applyDate == conditions.applyDate);
-        return today;
+        return val.applyDate == req.query.applyDate;
     }).filter(val => {
+        //今天的数据
         backData.today.tableArr.push(val);
         secIpt(backData.today, val);
     });
 
-    ratio(backData.today);
-    ratio(backData.lastWeek);
-    ratio(backData.last30Days);
-    // console.log(backData.today.tableArr);
-    return backData;
-}
+    //计算比例tadioData
+    Object.keys(backData).filter(val => ratio(backData[val]));
 
-function ratio(dataObj) {
-    var allNum = 0;
-    for (var k = 0; k < dataObj.chartData.length; k++) {
-        allNum += dataObj.chartData[k];
-    }
-    for (var j = 0; j < dataObj.chartData.length; j++) {
-        dataObj.ratioData[j] = (dataObj.chartData[j] / allNum * 100).toFixed(2);
-    }
-}
-
-//数组去重
-function getCount(arr) {
-    return arr.filter((val, index, self) => self.indexOf(val) == index)
-}
-
-//home接口(获取开关列表)
-app.get("/home", function (req, res) {
-    var data = fs.readFileSync('./json/filterData.json').toString();
-    data = JSON.parse(data);
-    res.send(data);
-});
-
-//appscore接口(获取appscore数据)
-app.get("/appscore", function (req, res) {
-    var data = fs.readFileSync('./json/applications.json').toString();
-    data = JSON.parse(data);
-    // console.log(data);
-    res.send(dataBack(req, data));
-
-});
-
-//jscore接口(获取jscore数据)
-app.get("/jscore", function (req, res) {
-    var data = fs.readFileSync('./json/applications.json').toString();
-    data = JSON.parse(data);
-    res.send(dataBack(req, data));
-
-});
-
-//unionpayscore接口(获取unionpayscore数据)
-app.get("/upscore", function (req, res) {
-    var data = fs.readFileSync('./json/applications.json').toString();
-    data = JSON.parse(data);
-    res.send(dataBack(req, data));
-
-});
-
-//productsData接口(处理所有产品score分布)
-app.get("/productsData", function (req, res) {
-    var data = fs.readFileSync('./json/applications.json').toString();
-    var classfiyName = dec(JSON.parse(data));
-    // console.log(classfiyName);
-    var backData = {};
-
-    var arrlength = 0;
-    if (req.query.sectionIpt == "true") {
-        arrlength = Math.ceil(req.query.maxScore / req.query.subSection);
-    } else {
-        arrlength = jscoreImmediate.length / 2;
-    }
-    for (var i in classfiyName) {
-        backData[i] = Array.apply(null, Array(arrlength)).map(() => 0);
-        backData["_" + i] = Array.apply(null, Array(arrlength)).map(() => 0);
-        for (var j = 0; j < classfiyName[i].length; j++) {
-            if (new Date(classfiyName[i][j].applyDate) <= new Date(req.query.dayNb[1]) && new Date(classfiyName[i][j].applyDate) >= new Date(req.query.dayNb[0])) {
-
-                if (productName(classfiyName[i][j], req.query) && channelId(classfiyName[i][j], req.query) && isNew(classfiyName[i][j], req.query) && scoreName(classfiyName[i][j], req.query)) {
-
-                    if (req.query.sectionIpt == "true") {
-                        for (var l = 0; l < arrlength; l++) {
-                            if (classfiyName[i][j][classfiyName[i][j].scoreName] >= l * req.query.subSection && classfiyName[i][j][classfiyName[i][j].scoreName] < ((l + 1) * req.query.subSection)) {
-                                backData[i][l]++
-                            }
-                        }
-                    } else {
-                        for (var l = 0; l < (jscoreImmediate.length / 2); l++) {
-                            if (classfiyName[i][j][classfiyName[i][j].scoreName] >= jscoreImmediate[l * 2] && classfiyName[i][j][classfiyName[i][j].scoreName] < jscoreImmediate[l * 2 + 1]) {
-                                backData[i][l]++
-                            }
-                        }
-                    }
-                }
-            }
-            // console.log(backData[i][j]);
-
-        }
-        var allNum = 0;
-        backData["_" + i] = [];
-        for (var k = 0; k < backData[i].length; k++) {
-            allNum += backData[i][k];
-        }
-        for (var j = 0; j < backData[i].length; j++) {
-            backData["_" + i][j] = allNum ? (backData[i][j] / allNum * 100).toFixed(2) : "0.00";
-        }
-    }
     res.send(backData);
 });
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-//table02
+//  productsData接口
+app.get("/productsData", (req, res) => {
 
-//获取相对路径下的文件名
-//table02文件数组
+    let {chartArr, pathData, names, secIpt, ratio} = applicationsData(req);
+
+    let filterProductName = new PathData('./json/filterData.json').data[0].productName;
+
+    let backData = {};
+
+    filters(pathData, names, req.query).filter(val => {
+        return Date.parse(val.applyDate) > Date.parse(req.query.timeSlot[0]) && Date.parse(val.applyDate) <= Date.parse(req.query.timeSlot[1]);
+    }).filter(val => {
+        //计算chartData
+        if (filterProductName.indexOf(val.productName) > -1) {
+            // backData[val.productName] = backData[val.productName] || {
+            //     chartData: [...chartArr],
+            //     ratioData: []
+            // };
+            if (!backData[val.productName]) {
+                backData[val.productName] = {
+                    chartData: [...chartArr],
+                    ratioData: []
+                };
+            }
+            secIpt(backData[val.productName], val);
+        }
+        return false;
+    });
+
+    //
+    Object.keys(backData).forEach(val => ratio(backData[val]));
+    res.send(backData);
+});
+
+//  table02
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//  table02文件数组
 let fileNames = findSync('./json/table02');
 
-//生成table02 json文件名数组 返回值result(array[string]);
+//  table02/ .json文件名数组
 function findSync(startPath) {
     let result = [];
 
     function finder(path) {
         let files = fs.readdirSync(path);
-        files.forEach((val, index) => {
-
+        files.forEach((val) => {
             let fPath = join(path, val);
             let stats = fs.statSync(fPath);
             if (stats.isDirectory()) finder(fPath);
@@ -310,24 +211,16 @@ function findSync(startPath) {
     return result;
 }
 
-//tableName02接口返回table02表名列表
-app.get("/tableName02", function (req, res) {
-    res.send(fileNames);
-});
-
-//获取table02文件夹内json文件内数据并处理
+//  table02/[jsonFileName].json 数据处理
 function table02Date(jsonFileName) {
-    var data = fs.readFileSync('./json/table02/' + jsonFileName + '.json').toString();
-    var template = fs.readFileSync('./json/table02/template.json').toString();
+    let data = new PathData('./json/table02/' + jsonFileName + '.json').data;
+    let template = new PathData('./json/table02/template.json').data;
 
     if (data) {
-        data = JSON.parse(data);
-        template = JSON.parse(template);
-        var subtitle = [];
-        for (var i = 0; i < template.length; i++) {
+        let subtitle = [];
+        for (let i = 0, l = template.length; i < l; i++) {
             subtitle.push(template[i].name);
         }
-
         return {tableData: data, subtitle: subtitle};
     } else {
         return {tableData: [], subtitle: []};
@@ -335,104 +228,101 @@ function table02Date(jsonFileName) {
 
 }
 
-//获取table02文件夹内首个json表的信息
-app.get("/template", function (req, res) {
+//  tableNames接口    返回table02表名列表
+app.get("/tableNames", (req, res) => {
+    res.send(fileNames);
+});
+
+//  firstTable接口    返回table02/首个json文件的信息
+app.get('/firstTable', (req, res) => {
     res.send({table: table02Date(fileNames[0]), name: fileNames[0]});
 });
 
-//循环生成table02文件夹内json文件名的接口
-function table02Api(Names) {
-    for (let i = 0; i < Names.length; i++) {
-        app.get("/" + Names[i], function (req, res) {
-            res.send(table02Date(Names[i]));
-        });
-    }
+//  循环生成table02文件夹内json文件名的接口
+for (let i = 0, l = fileNames.length; i < l; i++) {
+    app.get(`/${fileNames[i]}`, (req, res) => {
+        res.send(table02Date(fileNames[i]));
+    });
 }
-
-table02Api(fileNames);
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 //dec.json
 
-//前n周(最后一周:[第6天前,今天]);
-function getFriday(date, n) {
-    var d;
-    if (date) {
-        d = new Date(date);
-    } else {
-        d = new Date();
-    }
-    // var dd = d.getDay();
-    // // var ddd = dd > 5 ? dd - 12 : dd - 5;
-    // // var ddd = (dd >= 5 ? dd - 5 : 2 + dd);
-    // console.log(dd);
-
-    var dateArrs = [];
-    for (var j = 0; j < n; j++) {
-        var dateArr = [];
-        for (var i = 0; i < 7; i++) {
-            dateArr.push(getBeforeDay(d, i))
-        }
-        d = getBeforeDay(dateArr[6], 1);
-        dateArrs[j] = dateArr;
-    }
-    // console.log(dateArrs);
-    return dateArrs
-}
-
-//改变数据结构: {产品名1:[{订单},{订单},...], 产品名2: [{...}]}
-function dec(data) {
-    var backData = {};
-    var productNames = JSON.parse(fs.readFileSync('./json/filterData.json').toString())[0].productName;
-    // console.log(productNames);
-    for (var i = 0; i < data.length; i++) {
-        for (var l = 0; l < productNames.length; l++) {
-            if (data[i].productName == productNames[l]) {
-                if (backData[data[i].productName]) {
-                    backData[data[i].productName].push(data[i]);
-                } else {
-                    backData[data[i].productName] = [];
-                    backData[data[i].productName].push(data[i]);
-                }
-            }
-        }
-    }
-    return backData;
-}
-
 //chartART接口API
-app.get("/chartART", function (req, res) {
-    var data = fs.readFileSync('./json/dec.json').toString();
-    var classfiyName = dec(JSON.parse(data));
-    var weeks = getFriday(req.query.date, req.query.weeksNb);
-    var backData = {};
-    var ratio = {};
-    // data = JSON.parse(data);
-    // data.filter(val=> {
-    //     return channelId(val.channelId.toString(), req.query) && isNew(val.isNew, req.query)
-    // }).filter(val=> {
-    //     return  new Date(val.applyDate) >= new Date(weeks[j][6]) && new Date(val.applyDate) <= new Date(weeks[j][0])
-    // });
-    for (var i in classfiyName) {
-        backData[i] = {all: 0};
-        ratio[i] = {};
-        for (var k = 0; k < classfiyName[i].length; k++) {
-            for (var j = 0; j < weeks.length; j++) {
-                if ((channelId(classfiyName[i][k], req.query)) && isNew(classfiyName[i][k], req.query) && new Date(classfiyName[i][k].applyDate) >= new Date(weeks[j][6]) && new Date(classfiyName[i][k].applyDate) <= new Date(weeks[j][0])) {
-                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
-                    backData[i].all++;
-                    if (classfiyName[i][k].decCode == "SUCCESS") {
-                        backData[i][weeks[j][6] + "-" + weeks[j][0]][0]++;
-                    }
-                    backData[i][weeks[j][6] + "-" + weeks[j][0]][1]++;
-                } else {
-                    backData[i][weeks[j][6] + "-" + weeks[j][0]] = backData[i][weeks[j][6] + "-" + weeks[j][0]] ? backData[i][weeks[j][6] + "-" + weeks[j][0]] : [0, 0];
-                }
-            }
-        }
+app.get("/chartART", (req, res) => {
+
+    let data = new PathData('./json/dec.json').data;
+
+    let filterProductName = new PathData('./json/filterData.json').data[0].productName;
+
+    let weeks = getBeforeNWeeks(req.query.date, req.query.weeksNb);
+    //返回数据
+    let backData = {}, dateArr = [];
+
+    let arrLength = req.query.weeksNb - 0;
+    for (let i = 0; i < arrLength; i++) {
+        dateArr[i] = `${weeks[i][0].replace('-', '/').replace('-', '/')}-${weeks[i][6].replace('-', '/').replace('-', '/')}`;
     }
+    let chartArr = new Array(arrLength).fill(0, 0, arrLength);
+    filters(data, ['isNew', 'channelId'], req.query).forEach(val => {
+        let name = val.productName;
+        if (filterProductName.indexOf(name) > -1) {
+            if (!backData[name]) {
+                backData[name] = {
+                    applyRt: chartArr.concat(),
+                    applyNo: chartArr.concat(),
+                    passNo: chartArr.concat()
+                };
+            }
+            for (let i = 0; i < req.query.weeksNb; i++) {
+                if (weeks[i].indexOf(val.applyDate) > -1) {
+                    if (val.decCode == "SUCCESS") {
+                        backData[name].passNo[i]++
+                    }
+                    backData[name].applyNo[i]++
+                }
+                // 计算比例
+                let ratio = backData[name].applyNo[i] == 0 ? 0 : (backData[name].passNo[i] / backData[name].applyNo[i] * 100).toFixed(2);
+                backData[name].applyRt[i] = ratio;
+            }
+
+        }
+    });
+    res.send({backData, dateArr});
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//embedding selector
+
+function appData() {
+    let data = new PathData('./json/embedding/similarities.json').data;
+    let dataTitle = [];
+    data.forEach(val => {
+        dataTitle.push(val.appname);
+    });
+    return {data, dataTitle}
+}
+
+app.get("/embeddingTitle", (req, res) => {
+    let {dataTitle} = appData();
+    res.send(dataTitle);
+});
+
+app.get("/relevance", (req, res) => {
+    let {dataTitle, data} = appData();
+    let arrLength = data[0].mostSimApp.length;
+    let backData = new Array(arrLength).fill({}, 0, arrLength);
+    backData.forEach((val,index) => {
+        let row = val;
+        data.forEach((item) => {
+            row[item.appname] = `${item.mostSimApp[index]}
+${item.similarity[index]}`;
+        })
+    });
     console.log(backData);
-    res.send(backData);
+    res.send(data);
 });
 

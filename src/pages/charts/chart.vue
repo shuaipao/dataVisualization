@@ -281,7 +281,6 @@
             //echarts初始化
             drawLine() {
                 let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
-                window.onresize = myChart.resize();
                 myChart.setOption({
 
                     title: {
@@ -295,7 +294,7 @@
                     },
                     tooltip: {
                         trigger: 'axis',
-                        position: function (p) {   //其中p为当前鼠标的位置
+                        position: function (p) {
                             return [p[0] - 65, p[1] - 10];
                         }
                     },
@@ -358,8 +357,6 @@
                 this.backgroundColor3 = 1;
                 if (this.ischartDatas == true) {
                     let myChart = this.$echarts.init(document.getElementById('myChart'), 'shine');
-                    window.onresize = myChart.resize();
-
                     myChart.setOption({
                         tooltip: {
                             align: 'left',
@@ -395,11 +392,6 @@
                             {
                                 name: '前30天用户',
                                 type: 'line',
-                                // areaStyle: {
-                                //     normal: {
-                                //         type: 'default',
-                                //     }
-                                // },
                                 smooth: false,
                                 data: this.chartDatas.last30Days.chartData
                             }, {
@@ -410,11 +402,6 @@
                             }, {
                                 name: '当日用户',
                                 type: 'line',
-                                // areaStyle: {
-                                //     normal: {
-                                //         type: 'default',
-                                //     }
-                                // },
                                 smooth: false,
                                 data: this.chartDatas.today.chartData
                             }]
@@ -427,7 +414,6 @@
                 this.backgroundColor3 = 0;
                 if (this.ischartDatas == true) {
                     let myChart = this.$echarts.init(document.getElementById('myChart'), 'infographic');
-                    window.onresize = myChart.resize();
                     myChart.setOption({
                         tooltip: {
                             align: 'left',
@@ -471,31 +457,16 @@
                             {
                                 name: '前30天用户',
                                 type: 'line',
-                                // areaStyle: {
-                                //     normal: {
-                                //         type: 'default',
-                                //     }
-                                // },
                                 smooth: false,
                                 data: this.chartDatas.last30Days.ratioData
                             }, {
                                 name: '前一周用户',
                                 type: 'line',
-                                // areaStyle: {
-                                //     normal: {
-                                //         type: 'default',
-                                //     }
-                                // },
                                 smooth: false,
                                 data: this.chartDatas.lastWeek.ratioData
                             }, {
                                 name: '当日用户',
                                 type: 'line',
-                                // areaStyle: {
-                                //     normal: {
-                                //         type: 'default',
-                                //     }
-                                // },
                                 smooth: false,
                                 data: this.chartDatas.today.ratioData
                             }]
@@ -505,10 +476,12 @@
 
             //chart2图骨架
             drawLine2() {
+                let myChart1 = this.$echarts.init(document.getElementById('myChart'), 'shine');
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
                 myChart2.clear();
                 window.onresize = function () {
                     myChart2.resize();
+                    myChart1.resize();
                 };
                 myChart2.setOption({
 
@@ -630,7 +603,6 @@
             typeRatio2() {
                 this.backgroundColor3 = 0;
                 let myChart2 = this.$echarts.init(document.getElementById('productsChart'), 'shine');
-
                 myChart2.setOption({
                     tooltip: {
                         align: 'left',
