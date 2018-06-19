@@ -54,6 +54,7 @@
                     this.subTitle = res.data.table.subtitle;
                     this.$store.state.subTitle[res.data.name] = this.subTitle;
                     this.$store.state.tableData[res.data.name] = this.tableData;
+                    console.log(this.subTitle,this.tableData)
                 });
             }
         },

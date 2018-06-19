@@ -1,0 +1,19 @@
+[
+  {
+    "appname": "QQ",
+    "mostSimApp": ["QQ", "微博", "百度贴吧", "快手"],
+    "similarity": [0.02, 0.04, 0.06, 0.08]
+  }, {
+  "appname": "微博",
+  "mostSimApp": ["微博", "百度贴吧","QQ",  "快手"],
+  "similarity": [0.02, 0.04, 0.06, 0.08]
+}, {
+  "appname": "百度贴吧",
+  "mostSimApp": ["百度贴吧", "微博", "快手", "QQ"],
+  "similarity": [0.02, 0.04, 0.06, 0.08]
+}, {
+  "appname": "快手",
+  "mostSimApp": ["快手", "QQ", "微博", "百度贴吧"],
+  "similarity": [0.02, 0.04, 0.06, 0.08]
+}
+]

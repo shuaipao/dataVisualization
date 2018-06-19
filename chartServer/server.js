@@ -298,7 +298,7 @@ app.get("/chartART", (req, res) => {
 //embedding selector
 
 function appData() {
-    let data = new PathData('./json/embedding/similarities.json').data;
+    let data = new PathData('./json/embedding/aaa.json').data;
     let dataTitle = [];
     data.forEach(val => {
         dataTitle.push(val.appname);
@@ -308,21 +308,20 @@ function appData() {
 
 app.get("/embeddingTitle", (req, res) => {
     let {dataTitle} = appData();
+    console.log(dataTitle)
     res.send(dataTitle);
 });
 
 app.get("/relevance", (req, res) => {
     let {dataTitle, data} = appData();
     let arrLength = data[0].mostSimApp.length;
-    let backData = new Array(arrLength).fill({}, 0, arrLength);
-    backData.forEach((val,index) => {
-        let row = val;
-        data.forEach((item) => {
-            row[item.appname] = `${item.mostSimApp[index]}
-${item.similarity[index]}`;
-        })
-    });
+    let backData = new Array(arrLength).fill({}, 0, arrLength).concat();
+    for (let i = 0, l = backData.length; i < l; i++) {
+        for(let j = 0,k = data.length; j < k; j++){
+            backData[i][dataTitle[j]] = data[j].mostSimApp[i] + "\n" + data[j].similarity[i];
+        }
+    }
     console.log(backData);
-    res.send(data);
+    res.send({backData, dataTitle});
 });
 

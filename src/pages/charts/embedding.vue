@@ -23,7 +23,7 @@
                             style="min-width: 0px;margin-top: 50px;overflow-y: auto;overflow-x:
                             hidden;float:
                         right;text-align:center">
-                            <el-table-column v-for="item in subTitle" :key="item" :prop="item" :label="item"
+                            <el-table-column v-for="item in subTitle" :prop="item" :label="item"
                                 header-align="center" sortable>
                                 {{item}}
                             </el-table-column>
@@ -52,9 +52,11 @@
                 baseURL: process.env.API_BASEURL,
             }).then(res => {
                 console.log(res);
+                this.subTitle = res.data.dataTitle;
+                this.tableData = res.data.backData;
             })
         },
-        methods() {
+        methods:{
 
         }
     }
